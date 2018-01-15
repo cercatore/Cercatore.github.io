@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-app lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="user-scalable=yes, maximum-scale=1.0, width=device-width, height=device-height" />
+  <link href="css/bootstrap.css" rel="stylesheet">
+
+  <link href="css/font-awesome.4.6.3.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,100italic" rel="stylesheet">
+  <link href="css/chat_styles.css" rel="stylesheet">
+  <style type="text/css">
+  ul li a{ display:block;
+    cursor: pointer;
+    padding:10px 20px 10px;}
+    li a:hover{
+      background-color:blue;
+      color:#ffffff;
+    }
+    .nav > btn{ padding-right:20px;
+          color:#eee}
+    .sfondo  {
+      background: linear-gradient(to bottom, #444, #EEE);
+    }
+    </style>
+    <title>{{title}}</title>
+  </head>
+  <style>
+  .custom-nav-style {
+    border : 1px solid blue;
+    box-shadow: 10px 0 10px black;
+    background-color: #00ff80;
+  }
+  .pull-right .navbar-toggle:after {
+    left: auto;
+    right: 13px;
+  }
+  .pull-right .navbar-toggle {
+    left: auto;
+    right: 0;
+  }
+  li { list-style-type:none;}
+  .bvars{
+    background: linear-gradient(to top, #cecece, #EEE);
+  }
+  .btn span {
+    color:white;
+  }
+</style>
+<body style="background-color:#CCC">
+  <cl-navbar></cl-navbar>
+
+  <div class="container">
+
+    <div ng-view id="ng-view" style="margin-top:300px"></div>
+
+  </div>
+  <script src="js/jquery.3.1.0.min.js"></script>
+  <script scr="https://cdnjs.com/libraries/popper.js"></script><!-- <script src="js/bootstrap.4.0.0-alpha.3.min.js"></script> -->
+  <script src="js/bootstrap.bundle.js"></script>
+  <script src="js/angular.js"></script>
+
+  <script src="js/angular-route.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-messages.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-animate.js"></script>
+  <script src="js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
+  <!-- AngularFire -->
+  <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+  <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBLLzsTGrzr87x-nMPg8_N5bBY_Z-8ioFU ",
+    authDomain: "myall-ada32.firebaseapp.com",
+    projectId:'myall-ada32'
+  };
+  var fbapp = firebase.initializeApp(config);
+  console.log(fbapp.name);
+  var db = firebase.firestore();
+  console.log(db);
+</script>
+<script src="partials/shared/modal.js"></script>
+<script src="app/app.js"></script>
+
+<script src="chat/chatController.js"></script>
+</body>
+</html>

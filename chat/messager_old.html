@@ -1,0 +1,21 @@
+<form ng-submit="control.addMessage()" name="suform">
+    <div class="row reply">
+      <div class="col-sm-1 col-md-1">
+        <i class="fa fa-smile-o fa-2x"></i>
+      </div>
+      <div class="col-sm-9 col-md-9">
+        <input type="text" class="form-control" rows="1" ng-model="control.text" name="text" >
+        <div ng-messages="suform.text.$errors">
+          <div ng-message="suform.text.$error.required">CIAO</div>
+        </div>
+      </div>
+      <div class="col-sm-1 col-md-1">
+        <i class="fa fa-microphone fa-2x" aria-hidden="true"></i>
+      </div>
+      <div class="col-sm-1 col-md-1 " style="vertical-align:middle">
+        <a class="btn btn-secondary" type="submit"><i class="fa fa-send fa-2x" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </form>
+
+  <!-- Reply Box End -->

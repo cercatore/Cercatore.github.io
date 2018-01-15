@@ -1,0 +1,33 @@
+<style>
+   li a { padding-right:20px}
+   </style>
+
+
+<div class="card card-block py-2" >
+{{control.username}}
+  <input type="text" class="form-control" ng-model="control.username">
+  <h2><div >{{chat_error}}</div></h2>
+  <a class="btn btn-success col-sm-3" ng-click="control.sonoUser(control.username)">ENTRA</a>
+  <ul class="row col-sm-12 mx-5">
+    <li><a class="btn btn-info col-sm-3" ng-click="control.sonoPaperino()">IDENTITA GIOVA</a></li>
+    <li><a class="btn btn-success col-sm-3" ng-click="control.sonoMaster()">TUTTO FAI</a></li>
+
+  </ul>
+  {{tutti_utenti|json}}
+  <ul class="row">
+    <li ng-repeat="user in tutti_utenti">
+      <a ng-if="!control.presence[user.name].offline" class="col-sm-3 btn btn-success"> BLACKAL</a>
+      <a ng-if=" control.presence[user.name].offline" class="col-sm-3 btn btn-default"> BLACKKD</a>
+
+    </li>
+  </ul>
+  <ul>
+    <li ng-repeat="(key,value) in currentChat.messages">
+      <!-- {{key }} - {{value}}</li> -->
+    </ul>
+
+  <br/>
+  <my-messanger></my-messanger>
+  <a class="btn btn-block btn-default" ng-click="reset()">RESET CHAT</a>
+
+</div>
