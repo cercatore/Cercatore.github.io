@@ -232,20 +232,25 @@
 
 /*Conversation*/
 
-.conversation {
-  padding: 0;
-  margin: 0 ;
+.conversation_orig {
+  margin-left:20px;
   height: 100%;
   /*width: 100%;*/
-  border-left: 1px solid rgba(0, 0, 0, .5);
+  box-border: 1px solid rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
   /*overflow-y: auto;*/
+
+}
+.conversation_back  {
+  background: url(images/background.jpg);
+  background-size: cover;
+
 }
 
 .message {
   padding: 0 !important;
   margin: 0 !important;
   #background: url("w.jpg") no-repeat fixed center;
-  background-size: cover;
   overflow-y: auto;
   border: 1px solid #f7f7f7;
   height: calc(100% - 120px);
@@ -277,13 +282,13 @@
 
 .message-main-receiver {
   /*padding: 10px 20px;*/
-  max-width: 60%;
+  max-width: 100%
 }
 
 .message-main-sender {
   padding: 3px 20px !important;
   margin-left: 40% !important;
-  max-width: 60%;
+  max-width: 100%;
 }
 
 .message-text {

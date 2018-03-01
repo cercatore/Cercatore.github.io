@@ -1,106 +1,15 @@
-<!-- Conversation Start -->
 <style>
-/* Compose */
-.cl-tooltip {
-  border-radius: 45;
-  width:100%;
+.conversation_orig{
+  margin-left:20px
 }
-.conversation-compose {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  overflow: hidden;
-  height: 50px;
-  width: 100%;
-  z-index: 2;
-}
-
-.conversation-compose div,
-.conversation-compose input {
-  background: #fff;
-  height: 100%;
-}
-
-.conversation-compose .emoji {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border-radius: 5px 0 0 5px;
-  flex: 0 0 auto;
-  margin-left: 8px;
-  width: 48px;
-}
-
-.conversation-compose .input-msg {
-  border: 0;
-  flex: 1 1 auto;
-  font-size: 16px;
-  margin: 0;
-  outline: none;
-  min-width: 50px;
-}
-
-.conversation-compose .photo {
-  flex: 0 0 auto;
-  border-radius: 0 0 5px 0;
-  text-align: center;
-  position: relative;
-  width: 48px;
-}
-
-.conversation-compose .photo:after {
-  border-width: 0px 0 10px 10px;
-  border-color: transparent transparent transparent #fff;
-  border-style: solid;
-  position: absolute;
-  width: 0;
-  height: 0;
-  content: "";
-  top: 0;
-  right: -10px;
-}
-
-.conversation-compose .photo i {
-  display: block;
-  color: #7d8488;
-  font-size: 24px;
-  transform: translate(-50%, -50%);
-  position: relative;
-  top: 50%;
-  left: 50%;
-}
-
-.conversation-compose .send {
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  flex: 0 0 auto;
-  margin-left: 8px;
-  margin-right: 8px;
-  padding: 0;
-  position: relative;
-  outline: none;
-}
-
-.conversation-compose .send .circle {
-  background: #008a7c;
-  border-radius: 50%;
-  color: #fff;
-  position: relative;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.conversation-compose .send .circle i {
-  font-size: 24px;
-  margin-left: 5px;
+footer {
+    position: fixed;
+    height: 100px;
+    bottom: 0;
+    width: 100%;
 }
 </style>
-<div class="col-lg-12 row">
+<div class="col-sm-12 row" class="conversation_orig" >
   <!-- Heading -->
   <div class="row heading">
     <div class="col-sm-2 col-md-1  heading-avatar">
@@ -121,7 +30,7 @@
   <!-- Heading End -->
 
   <!-- Message Box -->
-  <div class="row message" id="conversation">
+  <div class="row"  >
 
     <div class="row message-previous">
       <div class="col-sm-12 previous">
@@ -168,23 +77,27 @@
   <!-- Message Box End -->
 
   <!-- Reply Box -->
-  <form class="conversation-compose" ng-submit="control.addMessage()">
+<footer class="footer fixed-footer">
+  <form class="conversation-compose" style="background:#444" ng-submit="control.addMessage()">
     <div class="emoji">
       <i class="fa fa-smile-o fa-2x"></i>
     </div>
     <input class="cl-tooltip" name="text" ng-model="control.text" placeholder="Type a message" autofocus required><!--ng-init="control.text='blabla'" ng-required-->
     <div class="photo">
-      <i class="fa fa-paper-clip"></i>
+      <i class="fa fa-user"></i>
     </div>
     <div class="photo">
       <i class="fa fa-camera"></i>
     </div>
     <button class="send">
       <div class="circle">
-        <i class="fa fa-microphone">A</i>
+        <i class="fa fa-microphone"></i>
       </div>
     </button>
+
+
   </form>
+</footer>
 
 
 </div>

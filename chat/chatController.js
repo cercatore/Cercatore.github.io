@@ -1,5 +1,5 @@
 var cc=0;
-  angular.module('myApp.chat' ,[] )
+  angular.module('myApp.chat' ,['ngMessages'] )
     .controller('chatController', function($scope, $interval, $timeout){
         self = (this)
         this.afs = firebase.firestore();
