@@ -1,0 +1,35 @@
+<style>
+::-webkit-input-placeholder {
+    font-weight: bold;
+}
+::-moz-placeholder {
+    font-weight: bold;
+}
+select {
+  font-weight:bold;
+}
+
+</style>
+<div class="row">
+    <div class="col-sm-12 col-sm-offset-2">
+      <form ng-submit="ctrl.done(query)">
+    <div class="input-group">
+          <!-- field 1 -->
+          <select class="form-control ml-2" name="categoria" ng-model="query.genre" placeholder="genre" title="seleziona gener" >
+  				<option active value="">genre...</option>
+          <option ng-repeat="item in ctrl.optionGenre">{{item}}</option>
+          </select>
+          <!-- filed 2 -->
+            <select class="form-control ml-2" name="categoria" ng-model="query.year" title="seleziona anno" >
+            <option active value="">genre...</option>
+            <option ng-repeat="item in ctrl.optionYears">{{item}}</option>
+        </select>
+
+            <input type="text" class="form-control ml-2" ng-model="query.term" name="x" placeholder="Search term...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" ><span class="fa fa-search fa-2x"></span></button>
+            </span>
+        </div>
+      </form>
+    </div>
+</div>

@@ -10,7 +10,8 @@ var app = angular.module('myApp',
 	'ngMessages',
 	'ngAnimate',
 	'shared',
-	'firebase'
+	'firebase',
+	'ngTable'
 
 	])
 
@@ -215,8 +216,13 @@ app.config(
 			templateUrl: 'chat/room.html',
 			controller: 'chatController as control'
 		})
+		.when( '/zah' , {
+			title:'my obiettivo',
+			templateUrl: 'movie/movieTable.html',
+			controller: 'movieController as ctrl'
+		})
     .otherwise({
-        redirectTo: '/chat'
+        redirectTo: '/zah'
     });
 });
 

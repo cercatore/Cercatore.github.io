@@ -43,6 +43,8 @@ footer {
       <div class="row message-body" ng-if="message.sender != control.user">
         <div class="col-sm-12 message-main-receiver">
           <div class="receiver">
+            <strong>{{message.sender}}</strong>
+
             <div class="message-text">
               {{message.text}}
             </div>
@@ -60,6 +62,7 @@ footer {
       <div class="row message-body" ng-if="message.sender == control.user">
         <div class="col-sm-12 message-main-sender">
           <div class="sender">
+            <strong>{{message.sender}}</strong>
             <div class="message-text">
               {{message.text}}
             </div>
