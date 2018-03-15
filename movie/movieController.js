@@ -88,3 +88,40 @@ app.controller( "movieController" , function($scope,NgTableParams,movieService){
 
 
 })
+
+app.directive('clRating', function(){
+  return {
+  restrict: 'EA',
+    scope: {
+      'value': '=value',
+    },
+    link:linkFunc,
+    template: '<span ng-class="{isReadonly: isReadonly}">' +
+      '<i ng-class="renderObj" ' +
+      'ng-repeat="renderObj in renderAry"> ' +
+      '</i>' +
+      '</span>',
+      replace: true
+  }
+});
+function linkFunc(scope, element, attrs) {
+   if (scope.max === undefined){
+     scope.max = 5; // default
+   }
+   console.log(scope.value);
+   function renderValue() {
+     scope.renderAry = [];
+     for (var i = 0; i < scope.max; i++) {
+       if (i < scope.value) {
+         scope.renderAry.push({
+           'fa fa-star fa-2x yellow': true
+         });
+       } else {
+         scope.renderAry.push({
+           'fa fa-star-o fa-2x yellow': true
+         });
+       }
+     }
+   }
+   renderValue();
+ }

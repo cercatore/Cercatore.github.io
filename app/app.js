@@ -218,7 +218,7 @@ app.config(
 		})
 		.when( '/zah' , {
 			title:'my obiettivo',
-			templateUrl: 'movie/movieTable.html',
+			templateUrl: 'movie/movieDetail.html',
 			controller: 'movieController as ctrl'
 		})
     .otherwise({

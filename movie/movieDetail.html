@@ -1,63 +1,22 @@
 
 <style>
-.movie_single {
-  margin-bottom: 12px
+.thumbnail .corner{
+  position:absolute;
+  right:0;
+  background-color:#70707070;
+
 }
-.unfilm i {
-  position: absolute;
-  width: 100%;
-  display: block;
-  text-align: center;
-  left: 0;
-  font-size: 50px;
-  text-shadow: 0 0 8px #000;
-  transition: all .11s ease-in-out;
-  opacity: 0;
-  z-index: 99;
-  top: 38%
+.thumbnail{
+  transition-duration: .5s ease-out all;
 }
-.unfilm:hover i {
-  opacity: 1
+.thumbnail img{
+  width:200px;
+  height:auto;
+}
+.thumbnail:hover{
+  opacity:0;
 }
 
-
-.movie_single:hover i.play {
-  opacity: .7;
-  background-position: center;
-}
-.movie_single:hover {
-  background-color:#444;
-}
-i.play {
-  float: left;
-  position: absolute;
-  left: 19.5px;
-  right: 0;
-  top: 4.5px;
-  bottom: 0;
-  width: calc(186px - 15px);
-  height: 229.47px;
-  background: url(/images/play.png) left no-repeat;
-  opacity: 0;
-  background-size: cover;
-}
-@media (max-width: 1199px) {
-  i.play {
-    width: calc(149px - 15px);
-    height: 179.47px;
-  }
-}
-@media (max-width: 991px) {
-  i.play {
-    width: calc(155px - 15px);
-    height: 186.47px;
-  }
-}
-@media (max-width: 768px) {
-  i.play {
-    display: none;
-  }
-}
 a:focus,
 a:hover {
   text-decoration: none;
@@ -77,54 +36,113 @@ a:hover {
 .white{
   color:white;
 }
+.yellow{color:yellow}
+img {
+  width: 100%;
+}
+.img-container {
+  position:relative;
+  max-width:500px;
+}
+.thumbnail {
+  transition-duration: 1s;
+}
+
+.iverposed {
+  position:absolute;
+  top:0;
+  opacity: 0;
+  transition-duration: 1s;
+}
+
+.thumbnail:hover {
+  opacity: .5;
+}
+
+.iverposed:hover {
+  opacity: 1;
+}
+
+.mycaption {
+  position: absolute;
+  bottom: 0;
+  width:100%;
+  background-color:#545;
+
+}
+.lead{
+  font-size:22px;
+  text-shadow: 1px 1px 2px black;
+  color:#eee;
+}
+.rating{
+  background-color:#444A;
+
+}
 
 </style>
 <div class="card card-block">
   <div class="navbar navbar-collpase">
-  <div class="nav-item">
-    <p><i class="bold">POPULAR</i><span class="grey">GTFO cio:)</span></p>
-  </div>
-  <div class="nav-item">
-    <a class="btn btn-primary" ng-init="ctrl.fire = 0" ng-click="ctrl.loadMovies()">FUOCO A VOLO</a>
-    <a class="btn btn-danger" ng-init="ctrl.fire = 0" ng-click="ctrl.setTable()">FIGA</a>
-
-  </div>
-  <div class="pull-right nav-item">
-    <i class="fa fa-sort fa-2x"></i>
-  </div>
-</div>
-</div>
-<div class="container">
-
-    <div class="row ">
-      <div class="muovi col-sm-6 col-md-3 col-lg-6" >
-
-          <div class="muovi col-sm-6 col-md-3 col-lg-6" >
-            <div class="movie_single" style="padding:20px;">
-              <a class="unfilm thumbnail"  href="/films/epouse-moi-mon-pote">
-                <img class="img-responsive img-thumbnail" alt="Poster de Epouse-moi mon pote" title="Epouse-moi mon pote" src="/images/locandina1.jpg">
-                <!-- <i class="fa fa-play"></i> -->
-                <div class="text-justify text-wrap"><span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et</span></div>
-              </a>
-            </div>
-
-          </div>
-          <div class="muovi col-sm-6 col-md-3 col-lg-6" ng-repeat="movie in data track by $index">
-            <div class="movie_single" style="padding:20px;">
-              <a class="unfilm thumbnail"  href="/films/epouse-moi-mon-pote">
-                <img class="img-responsive img-thumbnail" alt="Poster de Epouse-moi mon pote" title="Epouse-moi mon pote" src="{{movie.image}}">
-                <i class="fa fa-play white"></i>
-                <div class="text-justify text-wrap"><span>{{movie.name}}</span></div>
-                <h1><small>{{movie.year}}</small></h1>{{movie.star}}
-              </a>
-            </div>
-            <div ng-if="debug == 1">
-              {{$index}} - {{movie.name}} -- log : {{ movie.log}}
-            </div>
-          </div>
-
-
-        </div>
-        <h1>ANCORRRRRA</h1>
+    <div class="nav-item">
+      <p><i class="bold">POPULAR</i><span class="grey">GTFO cio:)</span></p>
+    </div>
+    <div class="nav-item">
+      <a class="btn btn-primary" ng-init="ctrl.fire = 0" ng-click="ctrl.loadMovies()">FUOCO A VOLO</a>
+      <a class="btn btn-danger" ng-init="ctrl.fire = 0" ng-click="ctrl.setTable()">FIGA</a>
 
     </div>
+    <div class="pull-right nav-item">
+      <i class="fa fa-sort fa-2x"></i>
+    </div>
+  </div>
+</div>
+<cl-rating value="4"></cl-rating>
+<div class="container">
+
+  <div class="row ">
+    <div class="muovi col-sm-6 col-md-6 col-lg-3" >
+      <div class="mx-auto row col-md-12 bg-dark" >
+        <div class="col-md-3 text-left">
+          <i class="grey">20018</i>
+        </div>
+        <div class="col-md-3 text-right pull-right">
+          <i class="grey">Comedy/Drama</i>
+
+        </div>
+      </div>
+      <div class="mx-auto img-container" >
+        <img class="thumbnail" src="images/locandina1.jpg">
+        <div class="iverposed" style="width:100%;">
+          <img  src="images/play.png">
+          <div class="rating mx-5 yellow">
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star-o"></span>
+          </div>
+        </div>
+        <p class="col-md-12 lead text-center bg-dark"> <b>ELLE &amp; JOHN</b> </p>
+      </div>
+    </div>
+
+  </div>
+  <div class="muovi col-sm-6 col-md-3 col-lg-6" ng-repeat="movie in data track by $index">
+    <div class="movie_single" style="padding:20px;">
+      <a class="unfilm thumbnail"  href="/films/epouse-moi-mon-pote">
+        <img class="img-responsive img-thumbnail" alt="Poster de Epouse-moi mon pote" title="Epouse-moi mon pote" src="{{movie.image}}">
+        <i class="fa fa-play white"></i>
+        <div class="text-justify text-wrap"><span>{{movie.name}}</span></div>
+        <h1><small>{{movie.year}}</small></h1>{{movie.star}}
+      </a>
+    </div>
+    <div ng-if="debug == 1">
+      {{$index}} - {{movie.name}} -- log : {{ movie.log}}
+    </div>
+  </div>
+
+
+</div>
+<h1 class="text-justify">ANCORRRRRA Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et</h1>
+
+</div>
