@@ -18,8 +18,8 @@ app.service( "movieService" , function ( $http){
   var urlPoster  = "http://www.omdbapi.com/?&apikey=e37bd99c"
   var service = {
     data:[],
-    getPoster: function(name){
-      return $http.get(urlPoster + "&s=" + name ).success(function(res){
+    getPoster: function(name, year){
+      return $http.get(urlPoster + "&s=" + name + "&y=" + year ).success(function(res){
         angular.copy(res.Search, service.data)
         for (var ii=0; ii< vaiavivere.length; ii++)
           if (name.indexOf(vaiavivere[ii])!==-1) console.log(res);
@@ -29,7 +29,7 @@ app.service( "movieService" , function ( $http){
       })
     },
     getMovies: function(){
-      return $http.get("http://localhost/" + "data.json").success(function(res){
+      return $http.get("http://localhost:3000/" + "data.json").success(function(res){
         console.log(res);
       })
     },
@@ -51,7 +51,13 @@ app.controller( "movieController" , function($scope,NgTableParams,movieService){
       self.afs.collection('movies').doc(getNext()).set(movie);
     })
   }
-
+  function debugAddSomeCrap( crap){
+    item = {};
+    item.name = 'adaline';
+    item.score = '1';
+    item.year = 2015
+    crap.push(item);
+  }
   //this.loadMovie()
 
   console.log("ci sono")
@@ -62,14 +68,16 @@ app.controller( "movieController" , function($scope,NgTableParams,movieService){
 
   this.loadMovies = () => {
       movieService.getMovies().then(function (movieList, aaa) {
+          debugAddSomeCrap(movieList.data);
           movieList.data.forEach(function( movie){
               movie.ready = false;
-              movieService.getPoster(movie.name).then(function(result){
+              movieService.getPoster(movie.name,movie.year).then(function(result){
                   var dumy = movieService.results();
                   var ok;
                   try {
                     ok = dumy[0].Poster;
                   }catch( err){}
+                  movie.score = Math.round(movie.score / 2);
                   movie.image = ok  ? ok : fallback;
                   movie.ready = true;
               })

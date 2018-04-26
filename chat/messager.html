@@ -3,104 +3,102 @@
   margin-left:20px
 }
 footer {
-    position: fixed;
-    height: 100px;
-    bottom: 0;
-    width: 100%;
-}
-</style>
-<div class="col-sm-12 row" class="conversation_orig" >
-  <!-- Heading -->
-  <div class="row heading">
-    <div class="col-sm-2 col-md-1  heading-avatar">
-      <div class="heading-avatar-icon">
-        <img src="images/{{control.partner}}.png">
-      </div>
-    </div>
-    <div class="col-sm-8 col-md-4 heading-name">
-      <a class="heading-name-meta">THE KTCHEN
-      </a>
-      <span class="heading-online">Online</span>
-    </div>
-    <div class="col-sm-1 col-md-1  heading-dot pull-right">
-      <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
-    </div>
+  position: fixed;
+  height: 100px;
+  bottom: 0;
 
-  </div>
+}
+.receiver{
+  border-radius: 0 10px 10px 10px;
+  color:white;
+
+}
+.sender {
+  border-radius: 10px 0 10px 10px;
+  color:white;
+}
+.thumbnail{
+  max-width:62px;
+}
+
+
+</style>
+<div class="col-sm-12 bg-secondary" class="conversation_orig" style="height:100%;" >
+  <!-- Heading -->
+
   <!-- Heading End -->
 
   <!-- Message Box -->
-  <div class="row"  >
+  <div class="col-md-8 offset-md-4 pull-right p-2">
+    <div class="row">
+      <div class="col-md-10 text-wrap sender bg-dark">
+        sono bello sono bravo mi voglio bene caffe
+        <div class="align-text-bottom text-sm-right">3:28</div>
 
-    <div class="row message-previous">
-      <div class="col-sm-12 previous">
-        <a onclick="control.previous(this)" id="ankitjain28" name="20">
-          Show Previous Message!
-        </a>
+      </div>
+      <div class="col-md-2">
+        <strong>migone</strong>
+        <img class="thumbnail rounded-circle" src="images/topolino.png">
       </div>
     </div>
-    <div ng-repeat="(key,message) in currentChat.messages track by $index">
-      <div class="row message-body" ng-if="message.sender != control.user">
-        <div class="col-sm-12 message-main-receiver">
-          <div class="receiver">
-            <strong>{{message.sender}}</strong>
-
-            <div class="message-text">
-              {{message.text}}
-            </div>
-            <span class="message-time pull-right">
-              {{message.date | date:"MM/dd/yyyy 'at' h:mma"}} {{$index}}
-              <div ng-if="$index == currentChat.messages.length -1">
-                <i ng-if="checka" class="fa fa-2x fa-check"></i>
-              </div>
-            </span>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="row message-body" ng-if="message.sender == control.user">
-        <div class="col-sm-12 message-main-sender">
-          <div class="sender">
-            <strong>{{message.sender}}</strong>
-            <div class="message-text">
-              {{message.text}}
-            </div>
-            <span class="message-time pull-right">
-               {{message.date | date:"MM/dd/yyyy 'at' h:mma"}} {{$index}}
-              <div ng-if="$index == currentChat.messages.length -1">
-                <i ng-if="checka" class="fa fa-2x fa-check"></i>
-              </div>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div><!-- ng-repaat -->
   </div>
+  <div class="row" ng-repeat="(key,message) in currentChat.messages track by $index">
+    <div class="col-md-8 p-2" ng-if="message.sender != control.user && $index > 36">
+      <div class="row">
+        <div class="col-md-2">
+          <strong>paperino</strong>
+          <img class="thumbnail rounded-circle" src="images/topolino.png">
+        </div>
+        <div class="col-md-10 text-wrap receiver bg-dark">
+            {{message.text}}
+          <div class="align-text-sm-bottom text-sm-right">{{ message.date | date: " h:mma" }}</div>
+ </div>
+
+        </div>
+      </div>
+      <div class="col-md-8 offset-md-4 pull-right p-2" ng-if="message.sender == control.user && $index > 36">
+        <div class="row">
+          <div class="col-md-10 text-wrap sender bg-dark">
+            {{message.text}}
+            <div class="align-bottom text-sm-right">{{ message.date | date: " h:mma" }}<span class="fa fa-2x fa-check text-primary">&nbsp; </span></div>
+          </div>
+          <div class="col-md-2">
+            <strong>migone</strong>
+            <img class="thumbnail rounded-circle" src="images/topolino.png">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
   <!-- Message Box End -->
 
   <!-- Reply Box -->
-<footer class="footer fixed-footer">
-  <form class="conversation-compose" style="background:#444" ng-submit="control.addMessage()">
-    <div class="emoji">
-      <i class="fa fa-smile-o fa-2x"></i>
-    </div>
-    <input class="cl-tooltip" name="text" ng-model="control.text" placeholder="Type a message" autofocus required><!--ng-init="control.text='blabla'" ng-required-->
-    <div class="photo">
-      <i class="fa fa-user"></i>
-    </div>
-    <div class="photo">
-      <i class="fa fa-camera"></i>
-    </div>
-    <button class="send">
-      <div class="circle">
-        <i class="fa fa-microphone"></i>
+  <footer class="footer">
+    <form class="conversation-compose" style="background:#444" ng-submit="control.addMessage()">
+      <div class="emoji">
+        <i class="fa fa-smile-o fa-2x"></i>
       </div>
-    </button>
+      <input class="my-4 cl-tooltip" name="text" ng-model="control.text" placeholder="Type a message" autofocus required><!--ng-init="control.text='blabla'" ng-required-->
+      <div class="photo">
+        <i class="fa fa-user"></i>
+      </div>
+      <div class="photo">
+        <i class="fa fa-camera"></i>
+      </div>
+      <button class="send">
+        <div class="circle">
+          <i class="fa fa-microphone"></i>
+        </div>
+      </button>
 
 
-  </form>
-</footer>
+    </form>
+  </footer>
 
 
 </div>

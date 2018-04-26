@@ -14,6 +14,21 @@ var app = angular.module('myApp',
 	'ngTable'
 
 	])
+app.factory('$exceptionHandler', function ($log) {
+	var airbrake = new airbrakeJs.Client({
+		projectId: 177203,
+		projectKey: '2956e451f246fffe4b994df4ddbcd53e'
+	});
+	airbrake.addFilter(function (notice) {
+		notice.context.environment = 'production';
+		return notice;
+	});
+
+	return function (exception, cause) {
+		$log.error(exception);
+		airbrake.notify({error: exception, params: {angular_cause: cause}});
+	};
+});
 
 var user;
 app.directive('clNavbar', function() {
@@ -216,13 +231,17 @@ app.config(
 			templateUrl: 'chat/room.html',
 			controller: 'chatController as control'
 		})
-		.when( '/zah' , {
+		.when( '/movie' , {
 			title:'my obiettivo',
 			templateUrl: 'movie/movieDetail.html',
 			controller: 'movieController as ctrl'
 		})
+		.when( '/shot', {
+			templateUrl:"movie/batch.html",
+			controller:'batch'
+		})
     .otherwise({
-        redirectTo: '/zah'
+        redirectTo: '/chat'
     });
 });
 

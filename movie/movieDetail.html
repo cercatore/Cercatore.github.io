@@ -71,21 +71,56 @@ img {
 
 }
 .lead{
-  font-size:22px;
+  font-size:28px;
   text-shadow: 1px 1px 2px black;
-  color:#eee;
-}
-.rating{
   background-color:#444A;
+  color:white;
 
+}
+.list-group-item:hover{
+  color:white;font-weight:bold;
+  background-color:#428f43A0;
+  cursor:pointer;
+}
+.card {
+  background: #fff;
+  border-radius: 2px;
+  display: inline-block;
+
+}
+
+.card-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card-1:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 </style>
-<div class="card card-block">
-  <div class="navbar navbar-collpase">
-    <div class="nav-item">
-      <p><i class="bold">POPULAR</i><span class="grey">GTFO cio:)</span></p>
+<!-- <section class="col-lg-12 main_content">
+<div class="panel panel-info py-2 my-2">
+
+<div class="panel-heading mx-2 panel-info"><i class="fa fa-bars"></i><span class="bold lead "> MOVIES</span></div>
+<div class="panel-body panel-info">
+<ul class="list-group mb-5">
+<li class="list-group-item active"><i class="fa fa-film fa-2x"></i>  CINEMA</li>
+<li class="list-group-item"><i class="fa fa-tv fa-2x"></i>  SERIE TV</li><li class="list-group-item"><i class="fa fa-2x fa-play"></i>  CARTONI</li>
+</ul>
+<ul class="list-group mb-5">
+<li class="list-group-item active"><i class="fa fa-send fa-2x"></i>  GENERI</li>
+<li class="list-group-item"><span class="fa fa-envelope">  AZIONE</span></li>
+</ul>
+</div>
+</div>
+</section> -->
+<div class="panel bg-light">
+  <div class="navbar navbar-collapse" >
+    <div class="nav-item" style="vertical-align:baseline">
+      <i class="fa fa-film fa-4x"></i>
     </div>
+
     <div class="nav-item">
       <a class="btn btn-primary" ng-init="ctrl.fire = 0" ng-click="ctrl.loadMovies()">FUOCO A VOLO</a>
       <a class="btn btn-danger" ng-init="ctrl.fire = 0" ng-click="ctrl.setTable()">FIGA</a>
@@ -96,53 +131,46 @@ img {
     </div>
   </div>
 </div>
-<cl-rating value="4"></cl-rating>
-<div class="container">
 
-  <div class="row ">
-    <div class="muovi col-sm-6 col-md-6 col-lg-3" >
+<div class="row" ng-show="! toggleDetail">
+    <div class="card card-block col-sm-4 my-2 " ng-repeat="movie in data">
+      <!-- <div class="card-header">BEDD SUCCHIAMI</div> -->
+      <div class="container">
+
       <div class="mx-auto row col-md-12 bg-dark" >
-        <div class="col-md-3 text-left">
-          <i class="grey">20018</i>
+        <div class="col-md-6 text-nowrap">
+          <i class="grey"> {{movie.year}}</i>
         </div>
-        <div class="col-md-3 text-right pull-right">
-          <i class="grey">Comedy/Drama</i>
+        <div class="col-md-6 text-sm-right text-nowrap">
+          <i class="grey"> {{movie.genre}}</i>
 
         </div>
       </div>
       <div class="mx-auto img-container" >
-        <img class="thumbnail" src="images/locandina1.jpg">
+        <img class="thumbnail" src="{{movie.image}}">
         <div class="iverposed" style="width:100%;">
-          <img  src="images/play.png">
-          <div class="rating mx-5 yellow">
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star-o"></span>
-          </div>
+          <img  src="images/play.png" ng-click="mostraDettaglio()">
+          <cl-rating value="movie.score"></cl-rating>
+
         </div>
-        <p class="col-md-12 lead text-center bg-dark"> <b>ELLE &amp; JOHN</b> </p>
+        <p class="col-md-12 lead text-center bg-dark"> <b>{{movie.name}}</b> </p>
       </div>
     </div>
 
   </div>
-  <div class="muovi col-sm-6 col-md-3 col-lg-6" ng-repeat="movie in data track by $index">
-    <div class="movie_single" style="padding:20px;">
-      <a class="unfilm thumbnail"  href="/films/epouse-moi-mon-pote">
-        <img class="img-responsive img-thumbnail" alt="Poster de Epouse-moi mon pote" title="Epouse-moi mon pote" src="{{movie.image}}">
-        <i class="fa fa-play white"></i>
-        <div class="text-justify text-wrap"><span>{{movie.name}}</span></div>
-        <h1><small>{{movie.year}}</small></h1>{{movie.star}}
-      </a>
-    </div>
-    <div ng-if="debug == 1">
-      {{$index}} - {{movie.name}} -- log : {{ movie.log}}
-    </div>
-  </div>
-
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
 <h1 class="text-justify">ANCORRRRRA Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et</h1>
 
 </div>

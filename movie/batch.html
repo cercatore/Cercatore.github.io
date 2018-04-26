@@ -1,10 +1,13 @@
-<div class=="panel panel-heading"><div class="panel-body">
-  <input class="bottom-marg-15" type="file" name="file" file></input>
-  <!-- Progress Bar -->
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="{{ uploadProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ uploadProgress }}%;">
-      {{ uploadProgress == 0 ? '' : uploadProgress + '%' }}
+<div class=="card card-heading">
+  <div class="card-body">
+    <input class="bottom-marg-15" type="file" name="file" file></input>
+    <!-- Progress Bar -->
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{ uploadProgress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ uploadProgress }}%;">
+        {{ uploadProgress == 0 ? '' : uploadProgress + '%' }}
+      </div>
     </div>
+    <a class="btn btn-primary btn-block btn-lg" ng-click="upload()">Upload</a>
   </div>
-  <a class="btn btn-primary btn-block btn-lg" ng-click="upload()">Upload</a>
-</div></div>
+  <h4>{{uploadTotal}}</h4>
+</div>
