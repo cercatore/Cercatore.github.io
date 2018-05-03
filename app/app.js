@@ -238,10 +238,10 @@ app.config(
 		})
 		.when( '/shot', {
 			templateUrl:"movie/batch.html",
-			controller:'batch'
+			controller:'batch as ba'
 		})
     .otherwise({
-        redirectTo: '/chat'
+        redirectTo: '/shot'
     });
 });
 

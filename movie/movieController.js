@@ -29,7 +29,7 @@ app.service( "movieService" , function ( $http){
       })
     },
     getMovies: function(){
-      return $http.get("http://localhost:3000/" + "data.json").success(function(res){
+      return $http.get("http://localhost:3000/" + "dataMay.json").success(function(res){
         console.log(res);
       })
     },
@@ -42,7 +42,11 @@ app.service( "movieService" , function ( $http){
 
 app.controller( "movieController" , function($scope,NgTableParams,movieService){
 
-
+   this.afunction = ( param ) =>  {
+     kdmfmksf;
+     kdfmf=kdfms;
+     let c_value;
+   }
   self = (this)
   this.afs = firebase.firestore();
 
@@ -77,7 +81,8 @@ app.controller( "movieController" , function($scope,NgTableParams,movieService){
                   try {
                     ok = dumy[0].Poster;
                   }catch( err){}
-                  movie.score = Math.round(movie.score / 2);
+                  // if ( movie.score instanceof Number) console.log(movie.score + 'is a number')
+                  movie.score = Math.round( parseInt(movie.score) / 2);
                   movie.image = ok  ? ok : fallback;
                   movie.ready = true;
               })
@@ -117,7 +122,7 @@ function linkFunc(scope, element, attrs) {
      scope.max = 5; // default
    }
    console.log(scope.value);
-   function renderValue() {
+   function renderValue(value) {
      scope.renderAry = [];
      for (var i = 0; i < scope.max; i++) {
        if (i < scope.value) {
@@ -131,5 +136,7 @@ function linkFunc(scope, element, attrs) {
        }
      }
    }
-   renderValue();
+   scope.$watch('value' , function (newvalue,oldvalue){
+     renderValue(newvalue);
+   });
  }
