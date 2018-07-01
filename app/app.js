@@ -11,7 +11,7 @@ var app = angular.module('myApp',
 	'ngAnimate',
 	'shared',
 	'firebase',
-	'ngTable'
+	//'ngTable'
 
 	])
 app.factory('$exceptionHandler', function ($log) {
@@ -111,10 +111,43 @@ function getNext(){
 	return new Date().getTime()
 }
 
-app.value('serviceBase' , 'https://api.mlab.com/api/1/databases/cbmanager/collections/' );
+
+app.constant('clSettings', {
+        beUrl:      'https://api.mlab.com/api/1/databases/cbmanager/collections/',
+				docName: 		 'test03',
+				apikey:      '?apiKey=LC-wif-orODQhsURWZf43a-I0x2hjhIf',
+
+        otherSetting: 'XYZ'
+    });
+
+
+
+
 app.value('categorieHC' , [ "FIRST COURSE" , "SECOND COURSE" , "SIDE DISHES" , "BEVERAGES"]);
 
-app.factory("services", ['$http' , 'serviceBase', function($http , serviceBase ) {
+app.factory("aracnoService" , function( $http ){
+	let service = {};
+	function mastica(data) {
+		 let obj = [];
+		 for(let i=0;i<data.length;i++){
+				let tmp = {};
+				tmp.value = data[i].name;
+				obj.push(tmp);
+			}
+			return obj;
+	}
+	service.init = ( sacco ) =>{
+		$http.get(window.location.protocol + '//' + window.location.host + "/" + "data.json" ).
+		then(response => {
+			sacco.arrayData = response.data;
+			sacco.out = mastica(sacco.arrayData);
+			sacco.status = "done.42";
+		});
+
+	}
+	return service;
+})
+app.factory("services", ['$http' , "clSettings", function($http , serviceBase ) {
   var docName = "portate"
     var obj = {};
 	//if (!ss ) alert("goes wrong");
@@ -186,6 +219,7 @@ app.controller('loginCtrl',  function ($rootScope, $scope, $location, $routePara
 
 });
 
+const Routes = [ "/bla" , "/home" , "/404" , "/chat" , "/inutle"];
 
 app.config(
   function($routeProvider, $httpProvider) {
@@ -212,13 +246,13 @@ app.config(
 			templateUrl: '/login.html',
 			controller:"loginCtrl"					// controller: 'loginCtrl'
       })
-	  .when('/home' , {
+	  .when( Routes[1], {
 			title : 'NUTELLA',
 			templateUrl: 'homeComponent/home.html',
 			controller : 'homeController'
 
 		})
-		.when('/404' , {
+		.when( Routes[2] , {
 		 		title: 'blabla',
 			  templateUrl: 'homeComponent/404.html',
 		})
@@ -226,7 +260,7 @@ app.config(
 				title: '500',
 				templateUrl: 'homeComponent/500.html'
 		})
-		.when( '/chat' , {
+		.when( Routes[3], {
 			title:'chat',
 			templateUrl: 'chat/room.html',
 			controller: 'chatController as control'
@@ -236,13 +270,25 @@ app.config(
 			templateUrl: 'movie/movieDetail.html',
 			controller: 'movieController as ctrl'
 		})
-		.when( '/shot', {
+		.when( '/bah', {
 			templateUrl:"movie/batch.html",
 			controller:'batch as ba'
 		})
+		.when('/shot', {
+			templateUrl:"caps/caps.html",
+			controller:'capsCtrl as control'
+		})
+		.when('/inutle', {
+			templateUrl:"homeComponent/mmmmm.html",
+			controller:"movieController as main"
+		})
+
+
     .otherwise({
-        redirectTo: '/shot'
+        redirectTo: '/inutle'
     });
+
+		console.log("routes: " + JSON.stringify(Routes));
 });
 
 

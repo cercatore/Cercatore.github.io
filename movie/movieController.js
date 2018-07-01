@@ -14,7 +14,8 @@
 // }
 var vaiavivere = ["cliente"];
 
-app.service( "movieService" , function ( $http){
+
+app.service( "movieService" , function ( $http , clSettings){
   var urlPoster  = "http://www.omdbapi.com/?&apikey=e37bd99c"
   var service = {
     data:[],
@@ -29,7 +30,7 @@ app.service( "movieService" , function ( $http){
       })
     },
     getMovies: function(){
-      return $http.get("http://localhost:3000/" + "dataMay.json").success(function(res){
+      return $http.get( clSettings.beUrl + clSettings.docName + clSettings.apikey  ).success(function(res){
         console.log(res);
       })
     },
@@ -66,13 +67,15 @@ app.controller( "movieController" , function($scope,NgTableParams,movieService){
 
   console.log("ci sono")
   $scope.debug = 0;
-  var fallback = "https://picsum.photos/200/300"
+  $scope.progress = 0;
+  var fallback = window.location.protocol + "//"+ window.location.host + "/images/unload.png";
 
   //$scope.data = i_data;// [{name: "Moroni", age: 50} /*,*/];
 
   this.loadMovies = () => {
       movieService.getMovies().then(function (movieList, aaa) {
           debugAddSomeCrap(movieList.data);
+          movieList.data = movieList.data.slice(movieList.data, 20 ,30);
           movieList.data.forEach(function( movie){
               movie.ready = false;
               movieService.getPoster(movie.name,movie.year).then(function(result){
@@ -85,9 +88,11 @@ app.controller( "movieController" , function($scope,NgTableParams,movieService){
                   movie.score = Math.round( parseInt(movie.score) / 2);
                   movie.image = ok  ? ok : fallback;
                   movie.ready = true;
+                  $scope.progress = $scope.progress + 2;
               })
           })
           $scope.data = movieList.data;
+          
       })
   }
   this.loadMovies();
