@@ -11,6 +11,7 @@ var app = angular.module('myApp',
 	'ngAnimate',
 	'shared',
 	'firebase',
+	'ngProgress'
 	//'ngTable'
 
 	])
@@ -117,7 +118,8 @@ app.constant('clSettings', {
 				docName: 		 'test03',
 				apikey:      '?apiKey=LC-wif-orODQhsURWZf43a-I0x2hjhIf',
 
-        otherSetting: 'XYZ'
+		otherSetting: 'XYZ',
+		routes
     });
 
 
@@ -205,7 +207,6 @@ app.factory("services", ['$http' , "clSettings", function($http , serviceBase ) 
 app.controller('loginCtrl',  function ($rootScope, $scope, $location, $routeParams)  {
 	$scope.loginStatus = "Sign In";
 	$scope.user = "you are claudio"
-
 	$scope.authenticate = function(user){
 		firebase.auth().signInWithEmailAndPassword(user.name, user.pass).catch(function(error) {
 		  // Handle Errors here.
@@ -216,10 +217,14 @@ app.controller('loginCtrl',  function ($rootScope, $scope, $location, $routePara
 		})
 		$location.path('/lista_portate')
 	}
+	kewfmkwemwell
+
+
+
 
 });
 
-const Routes = [ "/bla" , "/home" , "/404" , "/chat" , "/inutle"];
+var routes = [ "/bah" , "/home" , "/movies" , "/chat" , "/inutle"];
 
 app.config(
   function($routeProvider, $httpProvider) {
@@ -246,13 +251,13 @@ app.config(
 			templateUrl: '/login.html',
 			controller:"loginCtrl"					// controller: 'loginCtrl'
       })
-	  .when( Routes[1], {
+	  .when( routes[1], {
 			title : 'NUTELLA',
 			templateUrl: 'homeComponent/home.html',
 			controller : 'homeController'
 
 		})
-		.when( Routes[2] , {
+		.when( routes[2] , {
 		 		title: 'blabla',
 			  templateUrl: 'homeComponent/404.html',
 		})
@@ -260,7 +265,7 @@ app.config(
 				title: '500',
 				templateUrl: 'homeComponent/500.html'
 		})
-		.when( Routes[3], {
+		.when( routes[3], {
 			title:'chat',
 			templateUrl: 'chat/room.html',
 			controller: 'chatController as control'
@@ -275,25 +280,43 @@ app.config(
 			controller:'batch as ba'
 		})
 		.when('/shot', {
-			templateUrl:"caps/caps.html",
-			controller:'capsCtrl as control'
+			templateUrl:"burps/burps.html",
+			controller:'burpsCtrl as main'
 		})
-		.when('/inutle', {
-			templateUrl:"homeComponent/mmmmm.html",
-			controller:"movieController as main"
-		})
-
 
     .otherwise({
-        redirectTo: '/inutle'
+        redirectTo: '/shot'
     });
-
-		console.log("routes: " + JSON.stringify(Routes));
 });
+
+function printString(string, delay){
+    return new Promise((resolve, reject) => {
+      setTimeout(
+        () => {
+          console.log(string)
+          resolve()
+        },
+        delay + 1
+      )
+    })
+  }
+const waitaminuteDone = async() =>{
+	await printString("1111111", 300);
+	$rootScope.app_loading = 'ok load';
+
+}
 
 
 app.run(['$location', '$rootScope', function($location, $rootScope) {
 	$rootScope.loginActions  = [ 'LOGIN'];
+	waitaminuteDone();
+
+	$rootScope.route_1 = routes[0].replace('/','#');
+	console.log(routes[1])
+	$rootScope.route_2 = routes[1].replace('/','#');
+	$rootScope.route_3 = routes[2].replace('/','#');
+	$rootScope.route_4 = routes[3].replace('/','#');
+
 	if (user) {
 		$rootScope.loginStatus = "VAI DOVE VUOI";
 		// const user = firebase.auth().currentUser;

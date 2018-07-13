@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "ES5"
+    },
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "files": [
+      "/app/app.js",
+      "caps/caps.js",
+      "movie/movieController.js"
+
+  ]
+}

@@ -1,0 +1,14 @@
+{
+    "compileOnSave": true,
+        
+    "compilerOptions": {
+        "module": "system",
+        "target": "ES5"
+    },
+    "files": [
+        "/app/app.js",
+        "caps/caps.js",
+        "movie/movieController.js"
+
+    ]
+}

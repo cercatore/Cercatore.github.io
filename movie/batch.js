@@ -20,7 +20,7 @@ function fuckerup(json){
   return bru;
 }
 
-app.controller("batch" , function($scope, $http){
+app.controller("batch" , function($scope, $http, ngProgressFactory){
   $scope.bla = () =>{
 
   }
@@ -33,7 +33,7 @@ app.controller("batch" , function($scope, $http){
   var uploadTotal
   var cc = 0; // progress
   function initLoadCSV(){
-    $http.get("http://LOCALHOST" + "/" + "data.json",
+    $http.get( location.protocol + "//" + location.host+ "/" + "data.json",
     {"headers":{
       "content-type": "json;charset=ISO-8859-1",
       "accept" : "json;charset:undefined"}}
@@ -41,17 +41,22 @@ app.controller("batch" , function($scope, $http){
 
 
   }
-
+  initLoadCSV();
 
   complete = () => {
     console.log("complete.")
 
   }
+  $scope.progressbar = ngProgressFactory.createInstance();
+
   $scope.upload = () => {
-    // $http.post( $scope.docu , $scope.data  ,{"headers":{"Content-Type" : "application/json; charset=utf-8"}})
-    //   .then( () => $scope.outputText = `upload complete.`)
-    //   .catch(error => console.log(error) );
+    $scope.progressbar.start();
+    $http.post( $scope.docu , $scope.data  ,{"headers":{"Content-Type" : "application/json; charset=utf-8"}})
+      .then( () => { $scope.outputText = `upload complete.`; $scope.progressbar.complete();})
+      .catch(error => console.log(error) );
   };
+
+
 
   $scope.aaaaa  = () => {
     jQuery.ajax({
@@ -79,7 +84,7 @@ function mockProgress(){
 }
 mockProgress()
 let uploadStart  = 0;
-let inc = 16;
+let inc = 32;
 const iamgood = (delay, value) => {
   return new Promise( response => setTimeout( response, delay, value))
 }
@@ -106,12 +111,18 @@ function printString(string, delay){
 
   const printAll = async () =>{
     $scope.uploadProgress = uploadStart;
+    $scope.progressbar.start();
+
     await printString("1111111", 600);
     $scope.uploadProgress += inc;
+    $scope.progressbar.set($scope.uploadProgress)
+
     await printString("2222222", 600);
     $scope.uploadProgress += inc;
+    $scope.progressbar.set($scope.uploadProgress)
     await printString("33333333",600);
     $scope.uploadProgress += inc;
+    $scope.progressbar.set($scope.uploadProgress)
     $scope.outputText = "done."
   }
 

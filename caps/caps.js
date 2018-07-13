@@ -44,8 +44,7 @@ app.controller('capsCtrl' , function( $scope, $http , aracnoService){
           })
         done("exit " + self.worker + " with value " + param + ", ottiene " + results );
       }catch(err){ console.log("error on " + param + ". " + err)}
-    }
-
+    
 
 
 function log(text, param){

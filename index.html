@@ -49,13 +49,19 @@
 </style>
 <body style="background-color:#CCC">
   <cl-navbar></cl-navbar>
+  <div class="btn-group" >
+    <a href="{{route_1}}"  class="btn btn-info">LINK1{{route_1}}</a>
+    <a href="{{route_2}}"  class="btn btn-info">LINK</a>
+    <a href="{{route_3}}"  class="btn btn-info">LIN</a>
+    <a href="{{route_4}}"  class="btn btn-info">LI</a>
+  </div>
 
   <div class="container">
-
     <div ng-view  style="margin-top:80px"></div>
 
   </div>
   <script src="js/jquery.3.1.0.min.js"></script>
+  <!-- <script src="https://unpkg.com/popper.js"></script> -->
   <script scr="https://cdnjs.com/libraries/popper.js"></script><!-- <script src="js/bootstrap.4.0.0-alpha.3.min.js"></script> -->
   <script src="js/bootstrap.bundle.js"></script>
   <script src="js/angular.js"></script>
@@ -84,6 +90,7 @@
 </script>
 <script src="partials/shared/modal.js"></script>
 <script src="app/app.js"></script>
+<script src="app/ngprogress.min.js"></script>
 
 <script src="chat/chatController.js"></script>
 <script src="data.js"></script>
@@ -91,6 +98,7 @@
 <script src="movie/batch.js"></script>
 <script src="js/threadpool.js"></script>
 <script src="caps/caps.js"></script>
+<script src="burps/burps.js"></script>
 
 </body>
 </html>
