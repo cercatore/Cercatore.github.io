@@ -11,35 +11,46 @@ var app = angular.module('myApp',
 	'ngAnimate',
 	'shared',
 	'firebase',
-	'ngProgress'
+	'ngProgress',
+	'ngFileUpload'
 	//'ngTable'
 
 	])
-app.factory('$exceptionHandler', function ($log) {
-	var airbrake = new airbrakeJs.Client({
-		projectId: 177203,
-		projectKey: '2956e451f246fffe4b994df4ddbcd53e'
-	});
-	airbrake.addFilter(function (notice) {
-		notice.context.environment = 'production';
-		return notice;
-	});
-
-	return function (exception, cause) {
-		$log.error(exception);
-		airbrake.notify({error: exception, params: {angular_cause: cause}});
-	};
-});
 
 var user;
-app.directive('clNavbar', function() {
-		return {
-				restrict: 'E',
 
-				templateUrl:'partials/navbar.html'
-			}
-		})
+// const setLocalStorageItem = Cl(prop, value) => {
+// 	localStorage.setItem(prop, value);
+// });
 
+// const getLocalStorageItem = ClientFunction(prop => {
+// 	return localStorage.getItem(prop);
+// });
+app.factory('BearerAuthInterceptor', function ($window, $q, $location) {
+    return {
+        request: function(config) {
+				config.headers = config.headers || {};
+		    if (true) {
+              // may also use sessionStorage
+				// config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem('token');
+				console.log("affanculo")
+											// 
+            }
+            return config || $q.when(config);
+        },
+        response: function(response) {
+            if (response.status === 401) {
+				//  Redirect user to login page / signup Page.
+				$location.path('/404');
+            }
+            return response || $q.when(response);
+        }
+    };
+});
+
+// Register the previously created AuthInterceptor.
+
+let token;
 app.controller('homeController' , function ($rootScope, $scope, $firebaseAuth , $location){
 	this.dataData = {};
 	var auth = $firebaseAuth();
@@ -50,6 +61,8 @@ app.controller('homeController' , function ($rootScope, $scope, $firebaseAuth , 
 				function(firebaseUser){
 					$rootScope.rightPath = "signedin";
 					$rootScope.userLoggedIn = firebaseUser.email;
+					$rootScope.token = user.getToken();
+					window.localStorage.setItem('token' , $rootScope.token);
 					user = firebaseUser;
 					$location.path('/lista_portate')
 				  console.log("Signed in as:", firebaseUser.uid);
@@ -98,11 +111,14 @@ firebase.auth().onAuthStateChanged(function(_user) {
 		var check = angular.element(document).scope().rightPath;
 		if ( check !== undefined && check !== '');
 			// else window.location.href = "http://" + window.location.hostname + "/404"
-		angular.element(document).scope().userLoggedIn = "Ciao " + user.email;
-		console.log("****************** loggedIN ");
+		angular.element(document).scope().userLogged = "Ciao " + user.email;
+		var newtoken = user.getIdToken().then(function (data) { window.localStorage.setItem('token', data.replace(/\n/g, ''));
+		console.log("****************** loggedIN ");})
+		
   } else {
 		try{
-			angular.element(document).scope().userLoggedIn = "perfavore fai login";
+			angular.element(document).scope().userLogged = "perfavore fai login";
+			
 		}catch(err){}
     console.log("**************** out");
   }
@@ -127,7 +143,7 @@ app.constant('clSettings', {
 
 app.value('categorieHC' , [ "FIRST COURSE" , "SECOND COURSE" , "SIDE DISHES" , "BEVERAGES"]);
 
-app.factory("aracnoService" , function( $http ){
+app.factory("aracnoService" , function( $http, $location){
 	let service = {};
 	function mastica(data) {
 		 let obj = [];
@@ -146,6 +162,58 @@ app.factory("aracnoService" , function( $http ){
 			sacco.status = "done.42";
 		});
 
+	}
+
+	service.uploadToStorage = ( sacco, clientId, data, methodName, prog)  => {
+		
+		let ref = firebase.storage().ref().child(clientId + '-images').child(data.name );
+		var metadata = {
+			contentType: 'image/*',
+			"claudio" : data.name
+		  };
+		sacco.uploading = 1;
+		let task = ref.put(data, metadata)
+		task.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+		function(snapshot) {
+		  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+			var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+			prog.start();
+		  console.log('Upload is ' + progress + '% done');
+		  switch (snapshot.state) {
+			case firebase.storage.TaskState.PAUSED: // or 'paused'
+			  console.log('Upload is paused');
+			  break;
+			case firebase.storage.TaskState.RUNNING: // or 'running'
+			  console.log('Upload is running');
+			  break;
+		  }
+		}, function(error) {
+	  
+		// A full list of error codes is available at
+		// https://firebase.google.com/docs/storage/web/handle-errors
+		switch (error.code) {
+		  case 'storage/unauthorized':
+			// User doesn't have permission to access the object
+			break;
+	  
+		  case 'storage/canceled':
+			// User canceled the upload
+			break;
+	  		case 'storage/unknown':
+			// Unknown error occurred, inspect error.serverResponse
+			break;
+		default:console.log(error.code);
+		}
+	  }, function() {
+		// Upload completed successfully, now we can get the download URL
+		task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+		  console.log('File available at', downloadURL);
+			sacco.aggiornaUser(downloadURL);
+			prog.complete();
+			$location.path('/burp2');
+		});
+	  });
+		
 	}
 	return service;
 })
@@ -217,18 +285,19 @@ app.controller('loginCtrl',  function ($rootScope, $scope, $location, $routePara
 		})
 		$location.path('/lista_portate')
 	}
-	kewfmkwemwell
 
 
 
 
 });
 
-var routes = [ "/bah" , "/home" , "/movies" , "/chat" , "/inutle"];
+var routes = [ "/burp" , "/home" , "/movies" , "/chat" , "/inutle"];
 
 app.config(
   function($routeProvider, $httpProvider) {
-	  	//alert ("useXDomain prop is " + $httpProvider.defaults.useXDomain)
+		  //alert ("useXDomain prop is " + $httpProvider.defaults.useXDomain)
+	$httpProvider.interceptors.push('BearerAuthInterceptor');
+
     $routeProvider.
       when('/comanda', {
 			title:"PRFESSIONAL HOME PAGE DEVELOPER CLAUDIO",					// title: 'LOGIN',
@@ -279,8 +348,12 @@ app.config(
 			templateUrl:"movie/batch.html",
 			controller:'batch as ba'
 		})
-		.when('/shot', {
+		.when('/burp', {
 			templateUrl:"burps/burps.html",
+			controller:'burpsCtrl as main'
+		})
+		.when('/burp2', {
+			templateUrl:"burps/animalmap.html",
 			controller:'burpsCtrl as main'
 		})
 
@@ -309,8 +382,7 @@ const waitaminuteDone = async() =>{
 
 app.run(['$location', '$rootScope', function($location, $rootScope) {
 	$rootScope.loginActions  = [ 'LOGIN'];
-	waitaminuteDone();
-
+	
 	$rootScope.route_1 = routes[0].replace('/','#');
 	console.log(routes[1])
 	$rootScope.route_2 = routes[1].replace('/','#');
@@ -319,7 +391,9 @@ app.run(['$location', '$rootScope', function($location, $rootScope) {
 
 	if (user) {
 		$rootScope.loginStatus = "VAI DOVE VUOI";
-		// const user = firebase.auth().currentUser;
+		const user = firebase.auth().currentUser;
+		$rootScope.userLogged = user.getToken();
+		
 				// if (user){ // getProfile
 					// $rootScope.loginActions = [  "CONTACT", 'EMAIL', 'EDIT PICTURE', 'LOGOUT']
 					// $rootScope.loginStatus = ( user.displayName ? user.displayName : user.email )

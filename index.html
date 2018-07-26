@@ -60,6 +60,8 @@
     <div ng-view  style="margin-top:80px"></div>
 
   </div>
+  </body>
+  
   <script src="js/jquery.3.1.0.min.js"></script>
   <!-- <script src="https://unpkg.com/popper.js"></script> -->
   <script scr="https://cdnjs.com/libraries/popper.js"></script><!-- <script src="js/bootstrap.4.0.0-alpha.3.min.js"></script> -->
@@ -75,12 +77,15 @@
   <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
   <!-- AngularFire -->
   <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
-  <script src="js/airbrake.js"></script>
+  <script src="https://cdn.firebase.com/libs/geofire/4.1.2/geofire.min.js"></script>
+  
   <script>
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyBLLzsTGrzr87x-nMPg8_N5bBY_Z-8ioFU ",
     authDomain: "myall-ada32.firebaseapp.com",
+    databaseURL : "myall-ada32.firebaseio.com",
+    storageBucket : "myall-ada32.appspot.com",
     projectId:'myall-ada32'
   };
   var fbapp = firebase.initializeApp(config);
@@ -88,8 +93,11 @@
   var db = firebase.firestore();
   console.log(db);
 </script>
+<script src="app/ng-file-upload.min.js"></script>
+
 <script src="partials/shared/modal.js"></script>
 <script src="app/app.js"></script>
+<script src="direttova.js"></script>
 <script src="app/ngprogress.min.js"></script>
 
 <script src="chat/chatController.js"></script>
@@ -99,6 +107,4 @@
 <script src="js/threadpool.js"></script>
 <script src="caps/caps.js"></script>
 <script src="burps/burps.js"></script>
-
-</body>
 </html>

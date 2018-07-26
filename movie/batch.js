@@ -35,11 +35,10 @@ app.controller("batch" , function($scope, $http, ngProgressFactory){
   function initLoadCSV(){
     $http.get( location.protocol + "//" + location.host+ "/" + "data.json",
     {"headers":{
-      "content-type": "json;charset=ISO-8859-1",
-      "accept" : "json;charset:undefined"}}
+      "content-type": "json; charset",
+      "accept" : "application/json; charset=utf-8"}}
     ).then(response => { $scope.data = response.data;$scope.uploadTotal=$scope.data.length;console.log($scope.data[2]);$scope.sample = $scope.data[2];})
-
-
+    
   }
   initLoadCSV();
 

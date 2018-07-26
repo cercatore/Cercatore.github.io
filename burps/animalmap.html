@@ -1,0 +1,38 @@
+<style>
+    .map{
+        background-color:#AAA;
+        color:#444;
+        height:300px;
+        width:100%;
+    }
+    #marker{
+        position:absolute;
+        top:0;
+    }
+</style>
+range:
+<input class="form-control" type="number" value="5" ng-model="input.range" ng-change="main.updateRange(input)">
+username:{{user_error}} {{main.client.image}}
+<input class="form-control" type="text" ng-model="main.client.clientId" >
+<btn class="btn btn-info" ng-click="main.save()">SALVA</btn>
+<div class="row">
+    <a class="btn btn-primary col-sm-3" ng-click="setId('fish0')">FISH 0 </a>
+    <a class="btn btn-primary col-sm-3" ng-click="setId('1234567890')">1234567890</a>
+    {{clientId}}
+</div>
+<div class="card card-block mx-2 pa-2">
+    <div class="col-sm-12">
+        <my-awe-useless></my-awe-useless>
+        <image class="img-thumbnail" src="images/marker.png" id="marker"></image>
+    </div>
+    <div class="btn btn-primary btn-block" ng-click="main.start()" >ATTIVA GOD MODE</div>
+    <div class="btn btn-default" ng-click="main.wrap()">CIAO</div>
+    <div class="row">
+        <div class="col-sm-3" ng-repeat="amico in main.amici">
+            <img src="{{amico.image}}" class="rounded-circle">
+            {{amico.clientId}}
+
+        </div>
+
+    </div>
+</div>
