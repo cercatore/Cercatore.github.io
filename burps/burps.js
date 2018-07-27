@@ -63,7 +63,7 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
     return promises;
     };
     const dummy = () =>{
-      self.geoFire.set("fish6" , [45,160]).then(()=>console.log('cagata2'));
+      self.geoFire.set("fish6", [45, 160]).then(()=>log('cagata2'));
     }
     $scope.setId = (clientId) =>{
       self.clientId = clientId;
@@ -75,7 +75,7 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
     self.afs = firebase.firestore();
     self.geoFire = new GeoFire(self.db.child(geofire_table));
     console.log(self.db);
-    be_newuser();
+    
     // if (self.promises === undefined) throw new DOMException("oooooo ooo");
     self.geoQuery = self.geoFire.query({
       center: myloc ,
@@ -134,58 +134,26 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
 
   }
   populate(self.data);
-  function log(what) {$log.log(what);}
-  $scope.submit = function() {
+  function log (what) {$log.log(what);}
+  $scope.submit = function () {
     if ($scope.form.file.$valid && $scope.file) {
       $scope.upload($scope.file);
     }
   };
-  $scope.upload = function(file){
-    console.log('Bearer ' + $rootScope.token );
-  Upload.upload( {
-    url: 'http://myall-ada32.appspot.com', //S3 upload url including bucket name
-    method: 'POST',
-    headers: { 'Authorization' : 'Bearer ' + $rootScope.token },
-    withCredentials:false,
-    data: {
-      file: file,
-      filename: file.name
-      }
-    }).then(function (resp) {
-            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-        }, function (resp) {
-            console.log('Error status: ' + resp.status + " " + resp.message);
-        }, function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-        });;
-  }
-  function be_newuser() {
-    let itemRef = self.db.child('items');
-    itemRef.child(clientId).set(self.client);
-    console.log("nuovo amico " +  itemRef);
-    //self.db.child('items').ch,ild(itemId).set(self.data.person);
-    self.geoFire.set(self.client.clientId, myloc ).then(function() {
-      console.log("Provided key has been added to GeoFire");
-    }, function (error) {
-      console.log("Error: " + error);
-    });
-  }
-  function da_newuser() {
+  
+  function da_newuser () {
     let userRef = self.afs.collection('amici').doc(self.client.clientId)
       .set(        self.client)
       .then( _ => {});
-      console.log("nuovo amico 2 " +  userRef);
-      self.geoFire.set(self.client.clientId, myloc ).then(function() {
-        console.log("Provided key has been added to GeoFire");
+      console.log("nuovo amico 2 " + userRef);
+      self.geoFire.set(self.client.clientId, myloc ).then(function () {
       }, function (error) {
-        console.log("Error: " + error);
       });
       
   
     
   }
-  $scope.aggiornaUser = (a)=>{self.client.image=a}
+  $scope.aggiornaUser = (a)=>{self.client.image = a};
   $scope.aggiornaUser('');
 
 })

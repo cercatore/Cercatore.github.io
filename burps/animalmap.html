@@ -29,8 +29,8 @@ username:{{user_error}} {{main.client.image}}
     <div class="btn btn-default" ng-click="main.wrap()">CIAO</div>
     <div class="row">
         <div class="col-sm-3" ng-repeat="amico in main.amici">
-            <img src="{{amico.image}}" class="rounded-circle">
-            {{amico.clientId}}
+            <image src="{{amico.image}}" class="rounded-circle" style="max-width: 30%">
+            <i class="text-primary">{{amico.clientId}}{{amico.name}}</i>
 
         </div>
 
