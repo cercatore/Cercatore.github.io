@@ -1,27 +1,33 @@
 
-app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $log, Upload, $http, aracnoService) {
+app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $log, Upload, $http, aracnoService, geoService) {
   const cloud = "https://vision.googleapis.com/v1/images:annotate?key=";
   const key = 'AIzaSyAN8SUGdR7A17SCZta40uHajTYhsdOX-po';
   let clientId = "1234567890";
-  const geofire_table = 'user_location';
   let self = (this);
+  self.afs = firebase.firestore();
   $scope.image = {};
   $scope.file = {};
   self.client =  { clientId, name: "johnny"};
   self.data = {};
   self.amici = {};
-  let myloc = [45.38, 160.41];
-    
   
-  $log.log(self.data);
+  $scope.origin = { "x" : 0, "y" : 0};
+  self.client.image = window.localStorage.getItem('image');
   $scope.progressbar = ngProgressFactory.createInstance();
 
   this.save  = () => {
-     if (self.client.image === '' ) $scope.user_error = 'error no image';
-     
-     self.client.name = "fish";
-     self.client.image = 'images/marker.png';
-     da_newuser();
+     if (self.client.image === '' ) {
+       $scope.user_error = 'error no image';
+       
+       //return;
+     }
+     if (window.localStorage.getItem('chrome')){
+       self.client.image = "images/thecat.png";
+       self.client.name = "claudio";
+       self.client.clientId=clientId;
+     }
+     checkUser();   
+     geoService.newUser(self.client, [parseFloat($scope.origin.y), parseFloat($scope.origin.x)]);
   }
   this.updateRange = (r)=>{
     console.log("range : " + r);
@@ -45,6 +51,9 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
       // console.log(content.slice(content, 0, 50))
 
   }
+  this.knock = (user) => {
+      self.afs.collection('amici').doc(user).update({'knock': self.client.clientId});
+  }
   // Specify the locations for each fish
   let fishLocations = [
     [-16.130262, 153.605347],   // Coral Sea
@@ -62,52 +71,22 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
     });
     return promises;
     };
-    const dummy = () =>{
-      self.geoFire.set("fish6", [45, 160]).then(()=>log('cagata2'));
-    }
+    
     $scope.setId = (clientId) =>{
       self.clientId = clientId;
       self.client =  { clientId, name: "johnny"};   // TODO ERROR
     }
 
   function initFire () {
-    self.db = firebase.database().ref("/test_db");
-    self.afs = firebase.firestore();
-    self.geoFire = new GeoFire(self.db.child(geofire_table));
-    console.log(self.db);
     
-    // if (self.promises === undefined) throw new DOMException("oooooo ooo");
-    self.geoQuery = self.geoFire.query({
-      center: myloc ,
-      radius: 1000000.5
-    });
-    var onKeyEnteredRegistration = self.geoQuery.on("key_entered", (key, location, distance)=> {
-      console.log(key + " entered query at " + location + " (" + distance + " km from center)");
-      self.amici[key] = 'zio';
-      let amico = {};
-      caricaAFS(amico, key);
-    });
-    self.start = dummy;
+    geoService.registerQuery(clientId, [0, 0]);
+
     
 
 
   }
   initFire();
-  function caricaAFS (amico, key) {
-    let objref = self.afs.collection('amici').get()
-                    .then( query => {
-                        query.forEach( function (snap) {
-                           let oggetto = snap.data();
-                           if (oggetto.clientId === key) {
-                            amico.image = oggetto.image;
-                            amico.name = oggetto.name;
-                            self.amici[key] = amico;
-                            console.log(amico);
-                           }
-                           
-                        })
-                    })
-}
+  
 
 
 
@@ -141,23 +120,26 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
     }
   };
   
-  function da_newuser () {
-    let userRef = self.afs.collection('amici').doc(self.client.clientId)
-      .set(        self.client)
-      .then( _ => {});
-      console.log("nuovo amico 2 " + userRef);
-      self.geoFire.set(self.client.clientId, myloc ).then(function () {
-      }, function (error) {
-      });
+  function checkUser () {
+    return true;
+  }
       
   
     
-  }
+  
   $scope.aggiornaUser = (a)=>{self.client.image = a};
   $scope.aggiornaUser('');
-
-})
-
+  $scope.moveMarker = (event) => {
+    let y = event.offsetY;
+    let x = event.offsetX;
+    $scope.origin.x = (x - 350) / 2;
+    $scope.origin.y = (y - 150) / 2;
+      $('#maker').css('top', y);
+      
+      $('#maker').css('left', x);
+  }
+  self.wrap = function () {self.client.image };
+});
   
 // $scope.request = buildRequest($scope.request);
 //     log($scope.request);

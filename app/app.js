@@ -143,6 +143,7 @@ app.constant('clSettings', {
 
 app.value('categorieHC' , [ "FIRST COURSE" , "SECOND COURSE" , "SIDE DISHES" , "BEVERAGES"]);
 
+
 app.factory("aracnoService" , function( $http, $location){
 	let service = {};
 	function mastica(data) {
@@ -210,6 +211,7 @@ app.factory("aracnoService" , function( $http, $location){
 		  console.log('File available at', downloadURL);
 			sacco.aggiornaUser(downloadURL);
 			prog.complete();
+			window.localStorage.setItem('image', downloadURL);
 			$location.path('/burp2');
 		});
 	  });
@@ -358,7 +360,7 @@ app.config(
 		})
 
     .otherwise({
-        redirectTo: '/shot'
+        redirectTo: '/burp2'
     });
 });
 

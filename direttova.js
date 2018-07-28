@@ -11,9 +11,13 @@ app.directive('myAweUseless', function() {
             restrict: 'E',
             template: '<div class="map"></div>',
             link: function ( scope, element, attrs) {
-                element.bind( 'mouseup', function (event) {
-                    scope.$apply(scope.moveMap());
+                console.log(element.offsetWidth);
+                   
+                element.bind( 'click', function (event) {
+                    console.log(event.offsetX);
+                    scope.$apply(scope.moveMarker(event));
                     event.preventDefault();
+                
                 });
             }
     }

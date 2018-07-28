@@ -9,29 +9,61 @@
         position:absolute;
         top:0;
     }
+    img {
+        object-fit:cover;
+        object-position: center;
+        max-width:300px;
+        max-height:200px;
+           }
+    .waiter{
+        position:absolute;
+        right:0;
+        background-color:white;
+        
+    }
 </style>
+<div class="card card-block">
+        <div class="waiter col-sm-3" ng-if="!hasDone">
+                <img src="images/loading.gif">
+            </div>
+</div>
+<div class="card card-block" ng-init="main.checkUser($event)">
+    <div class="card-header"><h4>Please add user</h4></div>
+    <div class="card-body">
+            <div class="input-group row" >
+                    <legend>location:</legend>
+                    <input class="form-control" type="text" ng-value="20" ng-model="origin.x" class="col-sm-3">
+                    <input class="form-control" type="text" ng-value="20" ng-model="origin.y" class="col-sm-3 pull-right">
+                    </div>
+                            
+    </div>
+</div>
+
 range:
 <input class="form-control" type="number" value="5" ng-model="input.range" ng-change="main.updateRange(input)">
 username:{{user_error}} {{main.client.image}}
 <input class="form-control" type="text" ng-model="main.client.clientId" >
 <btn class="btn btn-info" ng-click="main.save()">SALVA</btn>
-<div class="row">
+<!-- <div class="row">
     <a class="btn btn-primary col-sm-3" ng-click="setId('fish0')">FISH 0 </a>
     <a class="btn btn-primary col-sm-3" ng-click="setId('1234567890')">1234567890</a>
-    {{clientId}}
+    {{clientId}} -->
 </div>
 <div class="card card-block mx-2 pa-2">
     <div class="col-sm-12">
-        <my-awe-useless></my-awe-useless>
-        <image class="img-thumbnail" src="images/marker.png" id="marker"></image>
+        <p id="maker" style="position:absolute">@@@@</p>
+        <p id="origin" style="position:absolute;top:{{origin.x}};left:{{origin.y}}">X</p>
+        la x è il punto dove scavare
+        <!-- <image class="img-thumbnail" src="images/marker.png" id="marker"></image> -->
     </div>
     <div class="btn btn-primary btn-block" ng-click="main.start()" >ATTIVA GOD MODE</div>
     <div class="btn btn-default" ng-click="main.wrap()">CIAO</div>
     <div class="row">
-        <div class="col-sm-3" ng-repeat="amico in main.amici">
-            <image src="{{amico.image}}" class="rounded-circle" style="max-width: 30%">
-            <i class="text-primary">{{amico.clientId}}{{amico.name}}</i>
-
+        <div class="col-sm-3 col-lg-6 friend-box text-sm-center" ng-repeat="(id,amico) in amici">
+            <img src="{{amico.image}}" class="rounded-circle">
+            <div class="p-3 bg-dark"><h2><i class="text-white text-truncate" >{{id}}-{{amico.name}}</i></h2></div>
+            <div class="btn btn-primary" ng-click="main.knock(id)">kno</div>
+            
         </div>
 
     </div>
