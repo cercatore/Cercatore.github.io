@@ -30,11 +30,10 @@ app.factory('BearerAuthInterceptor', function ($window, $q, $location) {
     return {
         request: function(config) {
 				config.headers = config.headers || {};
-		    if (true) {
+		    if (window.localStorage.getItem('token')) {
               // may also use sessionStorage
-				// config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem('token');
-				console.log("affanculo")
-											// 
+				config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem('token');
+											//
             }
             return config || $q.when(config);
         },
@@ -63,6 +62,7 @@ app.controller('homeController' , function ($rootScope, $scope, $firebaseAuth , 
 					$rootScope.userLoggedIn = firebaseUser.email;
 					$rootScope.token = user.getToken();
 					window.localStorage.setItem('token' , $rootScope.token);
+					console.log("changed");
 					user = firebaseUser;
 					$location.path('/lista_portate')
 				  console.log("Signed in as:", firebaseUser.uid);
@@ -104,6 +104,14 @@ $rootScope.logout = function(){
 
 
 })
+if(typeof(String.prototype.trim) === "undefined")
+{
+    String.prototype.trim = function()
+    {
+        return String(this).replace(/^\s+|\s+$/g, '');
+    };
+}
+
 firebase.auth().onAuthStateChanged(function(_user) {
 	user = _user
   if (user) {
@@ -112,13 +120,14 @@ firebase.auth().onAuthStateChanged(function(_user) {
 		if ( check !== undefined && check !== '');
 			// else window.location.href = "http://" + window.location.hostname + "/404"
 		angular.element(document).scope().userLogged = "Ciao " + user.email;
-		var newtoken = user.getIdToken().then(function (data) { window.localStorage.setItem('token', data.replace(/\n/g, ''));
-		console.log("****************** loggedIN ");})
-		
+
+		var newtoken = user.getIdToken().then(function (data) { window.localStorage.setItem('token', ("" + data).trim());
+		console.log("****************** loggedIN changed ");})
+
   } else {
 		try{
 			angular.element(document).scope().userLogged = "perfavore fai login";
-			
+
 		}catch(err){}
     console.log("**************** out");
   }
@@ -135,6 +144,7 @@ app.constant('clSettings', {
 				apikey:      '?apiKey=LC-wif-orODQhsURWZf43a-I0x2hjhIf',
 
 		otherSetting: 'XYZ',
+		squadre_serie_a: ["EMPOLI, FROSINONE, PARMA, UDINESE, BOLOGNA, SPAL, SAMPDORIA, FIORENTINA, NAPOLI, CHIEVO"],
 		routes
     });
 
@@ -165,42 +175,46 @@ app.factory("aracnoService" , function( $http, $location){
 
 	}
 
-	service.uploadToStorage = ( sacco, clientId, data, methodName, prog)  => {
-		
+	service.uploadToStorage = ( sacco, clientId, data, propName, prog)  => {
+
 		let ref = firebase.storage().ref().child(clientId + '-images').child(data.name );
 		var metadata = {
 			contentType: 'image/*',
 			"claudio" : data.name
 		  };
 		sacco.uploading = 1;
-		let task = ref.put(data, metadata)
+		
+		let task = ref.put(data) // TODO: lasc\iare in bianco
 		task.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
 		function(snapshot) {
 		  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
 			var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-			prog.start();
-		  console.log('Upload is ' + progress + '% done');
+			console.log('Upload is ' + progress.toFixed(0) + '% done');
+			prog.set(9);
+			sacco.profile_identify = 'images/paperino.png';
+			sacco.start();
 		  switch (snapshot.state) {
 			case firebase.storage.TaskState.PAUSED: // or 'paused'
 			  console.log('Upload is paused');
 			  break;
 			case firebase.storage.TaskState.RUNNING: // or 'running'
-			  console.log('Upload is running');
+				console.log('Upload is running');
+				prog.set( progress.toFixed(0)); 
 			  break;
 		  }
 		}, function(error) {
-	  
+
 		// A full list of error codes is available at
 		// https://firebase.google.com/docs/storage/web/handle-errors
 		switch (error.code) {
 		  case 'storage/unauthorized':
 			// User doesn't have permission to access the object
 			break;
-	  
+
 		  case 'storage/canceled':
 			// User canceled the upload
 			break;
-	  		case 'storage/unknown':
+	  	case 'storage/unknown':
 			// Unknown error occurred, inspect error.serverResponse
 			break;
 		default:console.log(error.code);
@@ -210,12 +224,13 @@ app.factory("aracnoService" , function( $http, $location){
 		task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
 		  console.log('File available at', downloadURL);
 			sacco.aggiornaUser(downloadURL);
-			prog.complete();
+			prog.set(100);
 			window.localStorage.setItem('image', downloadURL);
-			$location.path('/burp2');
+			sacco[propName] = downloadURL;
+			
 		});
 	  });
-		
+
 	}
 	return service;
 })
@@ -293,7 +308,7 @@ app.controller('loginCtrl',  function ($rootScope, $scope, $location, $routePara
 
 });
 
-var routes = [ "/burp" , "/home" , "/movies" , "/chat" , "/inutle"];
+var routes = [ "/burp" , "/home" , "/movies" , "/chat" , "/batch", "/kikass"];
 
 app.config(
   function($routeProvider, $httpProvider) {
@@ -355,12 +370,16 @@ app.config(
 			controller:'burpsCtrl as main'
 		})
 		.when('/burp2', {
-			templateUrl:"burps/animalmap.html",
+			templateUrl:'burps/animalmap.html',
 			controller:'burpsCtrl as main'
+		})
+		.when('/kikass', {
+			templateUrl:'kikass/kikass.html',
+			controller:'kikass as main'
 		})
 
     .otherwise({
-        redirectTo: '/burp2'
+        redirectTo: '/kikass'
     });
 });
 
@@ -381,10 +400,9 @@ const waitaminuteDone = async() =>{
 
 }
 
-
 app.run(['$location', '$rootScope', function($location, $rootScope) {
 	$rootScope.loginActions  = [ 'LOGIN'];
-	
+
 	$rootScope.route_1 = routes[0].replace('/','#');
 	console.log(routes[1])
 	$rootScope.route_2 = routes[1].replace('/','#');
@@ -395,7 +413,7 @@ app.run(['$location', '$rootScope', function($location, $rootScope) {
 		$rootScope.loginStatus = "VAI DOVE VUOI";
 		const user = firebase.auth().currentUser;
 		$rootScope.userLogged = user.getToken();
-		
+
 				// if (user){ // getProfile
 					// $rootScope.loginActions = [  "CONTACT", 'EMAIL', 'EDIT PICTURE', 'LOGOUT']
 					// $rootScope.loginStatus = ( user.displayName ? user.displayName : user.email )

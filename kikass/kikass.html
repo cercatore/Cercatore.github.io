@@ -1,0 +1,37 @@
+
+<h2>{{out2}}</h2>
+<h1>sei uno stronzo </h1>@
+
+<form name="form1" ng-submit="main.done(input)">
+<div class="form-group">
+    <h1 class="text-center text-truncate">select one, two , trh33</h1>
+    <select class="form-control" ng-model="main.input.separator">
+        <option value=",">comma</option>
+        <option value=".">dot</option>a
+        <option value=";">semicolo</option>
+
+        <option value="&nbsp;">space</option>
+
+    </select>
+
+    <select class="form-control" ng-model="input.selected_team" ng-required>
+        <option ng-repeat="item in squadre_serie_a">{{item}}</option>
+    </select>
+    <input type="text" ng-model="input.formazione" required>
+        <div ng-messages></div>
+
+
+
+
+
+</div>
+</form>
+
+
+
+<pre>
+    {{ results }}
+</pre>
+<pre>
+    {{ out2}}
+</pre>

@@ -1,5 +1,5 @@
 
-app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $log, Upload, $http, aracnoService, geoService) {
+app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $log, Upload, $http, aracnoService, geoService, $location) {
   const cloud = "https://vision.googleapis.com/v1/images:annotate?key=";
   const key = 'AIzaSyAN8SUGdR7A17SCZta40uHajTYhsdOX-po';
   let clientId = "1234567890";
@@ -11,9 +11,11 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   self.data = {};
   self.amici = {};
   
+  
   $scope.origin = { "x" : 0, "y" : 0};
   self.client.image = window.localStorage.getItem('image');
   $scope.progressbar = ngProgressFactory.createInstance();
+  $scope.progressbar.setParent(document.getElementById("anchor_progress"));
 
   this.save  = () => {
      if (self.client.image === '' ) {
@@ -22,11 +24,12 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
        //return;
      }
      if (window.localStorage.getItem('chrome')){
-       self.client.image = "images/thecat.png";
+       self.client.image = "images/.jpg";
        self.client.name = "claudio";
        self.client.clientId=clientId;
      }
-     checkUser();   
+     checkUser(); 
+     console.log(self.client.clientId);  
      geoService.newUser(self.client, [parseFloat($scope.origin.y), parseFloat($scope.origin.x)]);
   }
   this.updateRange = (r)=>{
@@ -34,17 +37,17 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   }
   
   const feedGoogle = (data) => {
-      log( JSON.stringify($rootScope.userLogged))
+      log( "User login status ",  $rootScope.userLogged)
         $http.post(cloud + key, data )
           .then( (result) => { log(result) })
           .catch( (result) => log( result));
         };
   
-  $scope.thecat = "images/thecat.jpg";
+  $scope.thecat = "images/unload.png";
   self.testi = [ "Animals - Fauna" , "Mammals", "This cat", "laughing"];
     
   $scope.fatto = (data) => {
-    aracnoService.uploadToStorage($scope, clientId, data, 'outUpload', $scope.progressbar);
+    aracnoService.uploadToStorage($scope, clientId, data, 'out_url', $scope.progressbar);
     
     // alert(reader.result);
       // var content = reader.result.split(',')[1];// or var base64result = reader.result.substr(reader.result.indexOf(',') + 1); reader.result.split(',')[1]; //or var base64result = reader.result.substr(reader.result.indexOf(',') + 1);
@@ -123,12 +126,16 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   function checkUser () {
     return true;
   }
-      
+  this.procedi = () => {
+    $location.path('/burp2');
+  } 
   
     
   
-  $scope.aggiornaUser = (a)=>{self.client.image = a};
+  $scope.aggiornaUser = (a)=>{self.client.image = a;$scope.upload_complete = 1};
   $scope.aggiornaUser('');
+  $scope.start = () =>{self.active = true;}
+  
   $scope.moveMarker = (event) => {
     let y = event.offsetY;
     let x = event.offsetX;
