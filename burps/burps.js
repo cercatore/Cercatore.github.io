@@ -7,36 +7,34 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   self.afs = firebase.firestore();
   $scope.image = {};
   $scope.file = {};
-  self.client =  { clientId, name: "johnny"};
+  self.client =  { clientId, name: "alberto"};
   self.data = {};
   self.amici = {};
   
   
   $scope.origin = { "x" : 0, "y" : 0};
   self.client.image = window.localStorage.getItem('image');
+  console.log("client image is " + self.client.image);
   $scope.progressbar = ngProgressFactory.createInstance();
-  $scope.progressbar.setParent(document.getElementById("anchor_progress"));
+  //$scope.progressbar.setParent(document.getElementById("anchor_progress"));
 
   this.save  = () => {
-     if (self.client.image === '' ) {
-       $scope.user_error = 'error no image';
-       
-       //return;
-     }
-     if (window.localStorage.getItem('chrome')){
-       self.client.image = "images/.jpg";
-       self.client.name = "claudio";
-       self.client.clientId=clientId;
-     }
-     checkUser(); 
-     console.log(self.client.clientId);  
-     geoService.newUser(self.client, [parseFloat($scope.origin.y), parseFloat($scope.origin.x)]);
+    if (self.client.image === '' ) {
+    $scope.user_error = 'error no image';
+
+    //return;
+    }
+    if (window.localStorage.getItem('chrome')){
+    }
+    checkUser(); 
+    console.log(self.client.clientId + " " + self.client.name);  
+    geoService.newUser(self.client, [parseFloat($scope.origin.y), parseFloat($scope.origin.x)]);
   }
   this.updateRange = (r)=>{
     console.log("range : " + r);
   }
   
-  const feedGoogle = (data) => {
+  const feedGoogle = (data, outputDebug) => {
       log( "User login status ",  $rootScope.userLogged)
         $http.post(cloud + key, data )
           .then( (result) => { log(result) })
@@ -84,20 +82,18 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
     
     geoService.registerQuery(clientId, [0, 0]);
 
-    
-
-
   }
+  
   initFire();
   
 
 
 
-  function buildRequest () {
+  function buildRequest (imageUri) {
       let obj = {};
       obj.requests = [];
       obj.requests.push({});
-      obj.requests[0].image = {};
+      obj.requests[0].image = { "source": { "gcsImageUri" : imageUri }};
       let obj_feat = [];
       obj_feat.push({});
       obj_feat[0].type = 'LABEL_DETECTION';
@@ -132,9 +128,18 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   
     
   
-  $scope.aggiornaUser = (a)=>{self.client.image = a;$scope.upload_complete = 1};
-  $scope.aggiornaUser('');
-  $scope.start = () =>{self.active = true;}
+  $scope.aggiornaUser = (a, bucket)=>{self.client.image = a;$scope.upload_complete = true;self.client.gcsImage = bucket;
+    $scope.recog_in_prgress = "wait please, check in progress";
+    let sent = buildRequest(self.client.gcsImage);
+    feedGoogle(sent, "ciao");
+  
+  
+  
+  
+  
+  
+  };
+  
   
   $scope.moveMarker = (event) => {
     let y = event.offsetY;

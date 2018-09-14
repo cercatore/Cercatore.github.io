@@ -1,0 +1,22 @@
+<div class="product" style="margin:0 auto" ng-repeat="(key,message) in currentChat.messages track by $index">
+  <div class="col-md-6" ng-if="message.sender != control.user && $index > 36">
+    <div class="row">
+
+      <div class="col-md-6 pull-right">
+        <img class="thumbnail rounded-circle" src="images/topolino.png">
+      </div>
+      <div class="col-md-10 text-wrap receiver bg-dark">
+        {{message.text}}
+        <div class="align-text-sm-bottom text-sm-right">{{ message.date | date: " h:mma" }}</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-md-8 offset-md-4 pull-right p-2" ng-if="message.sender == control.user && $index > 36">
+    <div class="row">
+      <div class="col-md-10 text-wrap sender bg-dark">
+        {{message.text}}
+        <div class="align-bottom text-sm-right">{{ message.date | date: " h:mma" }}<span class="fa fa-2x fa-check text-primary">&nbsp; </span></div>
+      </div>
+      <div class="col-md-2">
+        <strong>migone</strong>

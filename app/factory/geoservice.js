@@ -41,7 +41,7 @@ app.factory('geoService' ,  function($rootScope,$log){
 		self.loc = myLoc;
 		let userRef = self.afs.collection('amici').doc(client.clientId)
 		.set(        client)
-		.then( result => {$log('fine')});
+		.then( result => {console.log('fine')});
 		console.log("nuovo amico 2 " + client.clientId);
 		self.geoFire.set(client.clientId, myLoc ).then(function () {
 		}, function (error) {

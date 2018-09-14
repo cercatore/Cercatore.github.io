@@ -4,7 +4,7 @@
 }
 footer {
   position: fixed;
-  height: 100px;
+  height: auto;
   bottom: 0;
 
 }
@@ -19,6 +19,7 @@ footer {
 }
 .thumbnail{
   max-width:62px;
+  max-height:62px;
 }
 
 
@@ -29,45 +30,51 @@ footer {
   <!-- Heading End -->
 
   <!-- Message Box -->
+  <div class="row">
   <div class="col-md-8 offset-md-4 pull-right p-2">
     <div class="row">
       <div class="col-md-10 text-wrap sender bg-dark">
-        sono bello sono bravo mi voglio bene caffe
+        <h4 class="text-wrap">sono bello sono bravo mi voglio bene caffe</h4>
         <div class="align-text-bottom text-sm-right">3:28</div>
 
       </div>
-      <div class="col-md-2">
-        <strong>migone</strong>
+      <div class="col-md-2 bg-secondary text-center">
+        <h4 class="text-wrap">Topolino</h4>
         <img class="thumbnail rounded-circle" src="images/topolino.png">
       </div>
     </div>
   </div>
-  <div class="product" style="margin:0 auto" ng-repeat="(key,message) in currentChat.messages track by $index">
-    <div class="col-md-10 p-2" ng-if="message.sender != control.user && $index > 36">
-      <div class="row">
-        
-        <div class="col-md-10">
-          <img class="thumbnail rounded-circle" src="images/topolino.png">
+  <div class="col-md-8 p-2">
+    <div class="row">
+        <div class="col-md-2 bg-light text-center">
+          <strong class="text-wrap">Cecilia</strong>
+          <img class="thumbnail rounded-circle mx-auto" src="images/thecat.jpg">
         </div>
-        <div class="col-md-10 text-wrap receiver bg-dark">
-          {{message.text}}
-          <div class="align-text-sm-bottom text-sm-right">{{ message.date | date: " h:mma" }}</div>
+        <div class="col-md-10 p-2 receiver bg-dark">
+          <h4 class="text-no-wrap">Ehi ho trovto questa moneta!!! ki CAZZ ki kazz ki kazz ki kazz ki kazz</h4>
+          <div class="align-text-bottom text-sm-right">3:29</div>
         </div>
 
-      </div>
     </div>
-    <div class="col-md-8 offset-md-4 pull-right p-2" ng-if="message.sender == control.user && $index > 36">
+
+  </div>
+  <div class="col-md-8 offset-md-4 pull-right p-2">
       <div class="row">
         <div class="col-md-10 text-wrap sender bg-dark">
-          {{message.text}}
-          <div class="align-bottom text-sm-right">{{ message.date | date: " h:mma" }}<span class="fa fa-2x fa-check text-primary">&nbsp; </span></div>
+          <h4 class="text-wrap">sono bello sono bravo mi voglio bene caffe</h4>
+          <div class="align-text-bottom text-sm-right">3:28</div>
+  
         </div>
-        <div class="col-md-2">
-          <strong>migone</strong>
-          <img class="thumbnail rounded-circle" src="images/topolino.png">
+        <div class="col-md-2 bg-secondary text-center">
+          <h4 class="text-wrap">Topolino</h4>
+          <img class="thumbnail rounded-circle" src="images/.png">
         </div>
       </div>
     </div>
+    
+
+</div>
+  
   </div>
 
 
@@ -78,27 +85,34 @@ footer {
   <!-- Message Box End -->
 
   <!-- Reply Box -->
-  <footer class="footer">
-    <form class="conversation-compose" style="background:#444" ng-submit="control.addMessage()">
+  <div hl-sticky="bottom" alwaysSticky="true" ><h2 class="text-primary">CIAO SONO STICKE</h2>
+  <div class="p-2" offset="100">
+    <form name="form" class="conversation-compose" style="background:#444" ng-submit="control.addMessage()">
       <div class="emoji">
         <i class="fa fa-smile-o fa-2x"></i>
       </div>
-      <input class="cl-tooltip" name="text" ng-model="control.text" placeholder="Type a message" autofocus required><!--ng-init="control.text='blabla'" ng-required-->
-      <div class="photo">
-        <i class="fa fa-user"></i>
+      <div class="input-group">
+        <input class="cl-tooltip form-control" name="text" ng-model="control.text" placeholder="Type a message" autofocus required><!--ng-init="control.text='blabla'" ng-required-->
+        <select type="text" class="custom-select" ng-model="control.other_input" >
+          <option>MANGIARE</option>
+          <option>DORMIRE</option>
+          <option>CACARE</option>
+        
+        </select>
+        <div class="photo"><i class="fa fa-2x fa-paperclip"></i></div>
+        <div class="photo"><i class="fa fa-2x fa-microphone"></i></div>
+        <div class="photo"><button><i class="fa fa-2x fa-send" ng-click="control.error = 'errore'"></i></button></div>
+        
       </div>
-      <div class="photo">
-        <i class="fa fa-camera"></i>
-      </div>
-      <button class="send">
-        <div class="circle">
-          <i class="fa fa-microphone"></i>
-        </div>
-      </button>
+      <h4><i class="fa fa-info-circle"></i>{{control.error}}</h4>
+
+    </div>
+      
 
 
     </form>
-  </footer>
+  </div>
+  </div>
 
 
 </div>

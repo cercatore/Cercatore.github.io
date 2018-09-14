@@ -12,7 +12,9 @@ var app = angular.module('myApp',
 	'shared',
 	'firebase',
 	'ngProgress',
-	'ngFileUpload'
+	'ngFileUpload',
+	'hl.sticky'
+
 	//'ngTable'
 
 	])
@@ -225,6 +227,9 @@ app.factory("aracnoService" , function( $http, $location){
 		  console.log('File available at', downloadURL);
 			sacco.aggiornaUser(downloadURL);
 			prog.set(100);
+			let ref = task.snapshot.ref;
+			let bucket = "gs://" + ref.location.bucket + "/" + ref.location.u;
+			console.log("bucket is " + bucket);
 			window.localStorage.setItem('image', downloadURL);
 			sacco[propName] = downloadURL;
 			
