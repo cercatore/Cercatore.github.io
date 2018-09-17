@@ -29,6 +29,17 @@ var cc=0;
         this.processMessages = function(event){
           console.log('YAY')
         }
+        let scrolled = false;
+        function updateScroll(element){
+          if(!scrolled){
+            let opt = {
+              top: element.scrollHeight,
+              left:0,
+
+            }
+              element.scrollIntoView(opt);
+          }
+        }
         this.registerMessageListener = function(roomId){
           messageRef = self.afs.collection('convers').doc(roomId).collection('messages')
           roomRef = self.afs.collection('convers').doc(roomId)
@@ -45,7 +56,12 @@ var cc=0;
                       nitem = {};
                       nitem[getNext()] = item;
                       $scope.currentChat.messages = [ ...$scope.currentChat.messages, item ];
+                      
                     })
+                    let element = $('.converation');
+                      // updateScroll(element);
+                      element.scrollintoview ({behavior: "instant", block: "end", inline: "nearest"});
+                      
 
                 }
                 )

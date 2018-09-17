@@ -146,7 +146,7 @@ app.constant('clSettings', {
 				apikey:      '?apiKey=LC-wif-orODQhsURWZf43a-I0x2hjhIf',
 
 		otherSetting: 'XYZ',
-		squadre_serie_a: ["EMPOLI, FROSINONE, PARMA, UDINESE, BOLOGNA, SPAL, SAMPDORIA, FIORENTINA, NAPOLI, CHIEVO"],
+		squadre_serie_a: ["ATALANTA", "BOLOGNA", "CAGLIARI", "CHIEVO", "EMPOLI", "FIORENTINA", "FROSINONE", "GENOA", "INTER", "JUVENTUS", "LAZIO", "MILAN", "NAPOLI", "PARMA", "ROMA", "SAMPDORIA", "SASSUOLO", "SPAL", "TORINO", "UDINESE"],
 		routes
     });
 

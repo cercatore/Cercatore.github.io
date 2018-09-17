@@ -2,23 +2,23 @@
 <h2>{{out2}}</h2>
 <h1>sei uno stronzo </h1>@
 
-<form name="form1" ng-submit="main.done(input)">
+<form name="form1" ng-submit="main.done(main.input)">
 <div class="form-group">
     <h1 class="text-center text-truncate">select one, two , trh33</h1>
     <select class="form-control" ng-model="main.input.separator">
         <option value=",">comma</option>
-        <option value=".">dot</option>a
+        <option value=".">dot</option>
         <option value=";">semicolo</option>
 
         <option value="&nbsp;">space</option>
 
     </select>
 
-    <select class="form-control" ng-model="input.selected_team" ng-required>
-        <option ng-repeat="item in squadre_serie_a">{{item}}</option>
+    <select class="form-control" ng-model="main.input.selected_team" ng-required>
+        <option ng-selected="main.input.selected_team == item" ng-repeat="item in squadre_serie_a" ng-value="item" >{{item}}</option>
     </select>
-    <input type="text" ng-model="input.formazione" required>
-        <div ng-messages></div>
+    <input type="text" ng-model="main.input.formazione" required value="De Rossi,Pjanic,biondini,Gomis a">
+        <div ng-messages>{{error}}</div>
 
 
 

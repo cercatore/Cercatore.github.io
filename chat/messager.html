@@ -24,59 +24,42 @@ footer {
 
 
 </style>
-<div class="col-sm-12 bg-secondary" class="conversation_orig" style="height:100%;" >
-  <!-- Heading -->
+<!-- Message Box -->
+<div class="converation" id="ciao" style="overflow-y:scroll;height:300px;">
+<div class="row col-sm-12 pa-2" >
+    <div ng-repeat-start="(key,message) in currentChat.messages track by $index"></div>
+    <div class="col-sm-8 offset-sm-4 pull-right mb-2" ng-if="message.sender == control.user">
+        <div class="row">
+          <div class="col-sm-10 text-wrap sender bg-dark">
+            <strong class="text-no-wrap"><b>{{message.sender}}</b></strong>
+            <span class="text-wrap">{{message.text}}</span>
+            <div class="align-text-bottom text-sm-right text-secondary">{{ message.date | date: " h:mma" }}</div>
 
-  <!-- Heading End -->
-
-  <!-- Message Box -->
-  <div class="row">
-  <div class="col-md-8 offset-md-4 pull-right p-2">
-    <div class="row">
-      <div class="col-md-10 text-wrap sender bg-dark">
-        <h4 class="text-wrap">sono bello sono bravo mi voglio bene caffe</h4>
-        <div class="align-text-bottom text-sm-right">3:28</div>
-
-      </div>
-      <div class="col-md-2 bg-secondary text-center">
-        <h4 class="text-wrap">Topolino</h4>
-        <img class="thumbnail rounded-circle" src="images/topolino.png">
-      </div>
-    </div>
-  </div>
-  <div class="col-md-8 p-2">
-    <div class="row">
-        <div class="col-md-2 bg-light text-center">
-          <strong class="text-wrap">Cecilia</strong>
-          <img class="thumbnail rounded-circle mx-auto" src="images/thecat.jpg">
+          </div>
+          <div class="col-sm-2 bg-secondary text-center">
+            <img class="thumbnail rounded-circle" src="images/topolino.png">
+          </div>
         </div>
-        <div class="col-md-10 p-2 receiver bg-dark">
-          <h4 class="text-no-wrap">Ehi ho trovto questa moneta!!! ki CAZZ ki kazz ki kazz ki kazz ki kazz</h4>
-          <div class="align-text-bottom text-sm-right">3:29</div>
-        </div>
-
+      
     </div>
-
-  </div>
-  <div class="col-md-8 offset-md-4 pull-right p-2">
+    <div class="col-sm-8 mx-4 mb-2" ng-if="message.sender != control.user" ng-repeat-end>
       <div class="row">
-        <div class="col-md-10 text-wrap sender bg-dark">
-          <h4 class="text-wrap">sono bello sono bravo mi voglio bene caffe</h4>
-          <div class="align-text-bottom text-sm-right">3:28</div>
-  
-        </div>
-        <div class="col-md-2 bg-secondary text-center">
-          <h4 class="text-wrap">Topolino</h4>
-          <img class="thumbnail rounded-circle" src="images/.png">
-        </div>
-      </div>
+          <div class="col-sm-2 text-center">
+            <img class="thumbnail rounded-circle mx-auto" src="images/thecat.jpg">
+          </div>
+          <div class="col-sm-10 p-2 receiver bg-dark">
+            <strong class="text-wrap">Cecilia</strong>
+            <div class="text-wrap">{{message.text}}</div> 
+            <div class="align-text-bottom text-sm-right text-secondary">{{ message.date | date: " h:mma" }}</div>
+          </div>
+
+      
     </div>
-    
+    </div>
+
+  </div>
 
 </div>
-  
-  </div>
-
 
 
 
