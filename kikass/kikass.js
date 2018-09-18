@@ -1,5 +1,5 @@
 app.controller("kikass", ["$scope", "clSettings", function ($scope, constants ) {
-
+  let self = (this);
   // INIT VALUES
   this.input = {};
   this.input.separator = ',';
@@ -44,7 +44,7 @@ app.controller("kikass", ["$scope", "clSettings", function ($scope, constants ) 
   "players":""
 },
 { "name": "Genoa",
-  "players" : "Perin; Biraschi; El Yamiq; Izzo; Pereira; Cofie; Veloso; Bertolacci; Omeonga; Medeiros; Lapadula; A disposizione; Lamanna; Zima; Rossettini; Oprut; Laxalt; Salcedo; Pandev; Rossi; Zanimacchia; Allenatore; Davide Ballardini;"}
+  "players" : "Perin; Biraschi; El Yamiq; Izzo; Pereira; Cofie; Veloso; Bertolacci; Omeonga; Medeiros; Lapadula; A disposizione; Lamanna; Zima; Rossettini; Oprut; Laxalt; Salcedo; Pandev; Rossi; Zanimacchia; Allenatore; Davide Ballardini;"},
 {
   "name":"INTER",
   "players":"Handanovic; Cancelo; Skriniar; Miranda; D'Ambrosio; Vecino; Brozovic; Candreva; Rafinha; Perisic; Icardi; All;; Spalletti;a disposizione;  borja valero;  ranocchia;  santon;  gagliardini;"
@@ -99,53 +99,60 @@ app.controller("kikass", ["$scope", "clSettings", function ($scope, constants ) 
 
   function mastica(selezionata, team){
     let select = selezionata,squadra_trovata=false;
+    let results = "";
     for ( let ii = 0; ii<team.length; ii++){
       if (team[ii].name.toLowerCase() === select){
         let inp = team[ii].players;
         let players = inp.split(";");
         self.results = {};
         for (let jj = 0; jj < players.length; jj++){
-          if (players[jj].replace(/^\s+|\s+$/g, " ") === match)
-            self.results = "trovato ex: " + match;
+          if (players[jj].replace(/^\s+|\s+$/g, "") === self.match)
+            results += " " + self.match;
         }
         squadra_trovata = true;
       }
     }
-    $scope.results = self.results; 
-    if (! squadra_trovata) $scope.results= "non trovata squadra";  // FORSE INUTILE
-
+    return results;
   }
   self.match = "Badelj";
   mastica('fiorentina', teamData.teams);
 
   this.done = (valori) => {
     $scope.out2 = {};
-    valori.formazione = valori.formazione.replace(/[,;.]+/g,"");
+    //valori.formazione = valori.formazione.replace(/[,;.]+/g,"");
     $scope.out2.gioca = valori.formazione.split(self.input.separator);
-    if ($scope.out2.gioca.length == 1) $scope.error = "attenzione possibile errore";
+    if ($scope.out2.gioca.length == 1) $scope.error = `attenzione possibile errore -> " ${self.input.separator} "`;
     $scope.out2.team = self.input.selected_team;
     self.match = $scope.out2.gioca[0];
-    mastica($scope.out2.team.toLowerCase(), teamData.teams);
-
+    self.results = mastica($scope.out2.team.toLowerCase(), teamData.teams);
+    stampaRisultati ();
+    logd($scope.out2)
   }
 
+
+
+  function helper_trova_casi_strani(){
+    $scope.occorrenze = [];
+    for (let ii = 0; ii < teamData.teams.length; ii++){
+      let team = teamData.teams[ii];
+      let players = team.players;
+      // casi 
+      if (players) ;
+    
+    }
+  }
+  function stampaRisultati(ticker){
+    if (self.results !== "") $scope.results = "trovato " + self.results;
+        else $scope.results = "cazze nere";
+  
+  }
+  
+  function logd(json){
+    let out = JSON.stringify(json,null,"    ");
+    console.log( out );
+    return out;
+  }
+  
 }])
 
 
-
-function helper_trova_casi_strani(){
-  $scope.occorrenze = [];
-  for (let ii = 0; ii < teamData.teams.length; ii++){
-    let team = teamData.teams[ii];
-    let players = team.players;
-    // casi 
-    if (players)
-  }
-}
-
-
-function logd(json){
-  let out = JSON.stringify(json,null,"    ");
-  console.log( out );
-  return out;
-}

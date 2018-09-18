@@ -114,26 +114,26 @@ if(typeof(String.prototype.trim) === "undefined")
     };
 }
 
-firebase.auth().onAuthStateChanged(function(_user) {
-	user = _user
-  if (user) {
-    //alert("user signed in")
-		var check = angular.element(document).scope().rightPath;
-		if ( check !== undefined && check !== '');
-			// else window.location.href = "http://" + window.location.hostname + "/404"
-		angular.element(document).scope().userLogged = "Ciao " + user.email;
+// firebase.auth().onAuthStateChanged(function(_user) {
+// 	user = _user
+//   if (user) {
+//     //alert("user signed in")
+// 		var check = angular.element(document).scope().rightPath;
+// 		if ( check !== undefined && check !== '');
+// 			// else window.location.href = "http://" + window.location.hostname + "/404"
+// 		angular.element(document).scope().userLogged = "Ciao " + user.email;
 
-		var newtoken = user.getIdToken().then(function (data) { window.localStorage.setItem('token', ("" + data).trim());
-		console.log("****************** loggedIN changed ");})
+// 		var newtoken = user.getIdToken().then(function (data) { window.localStorage.setItem('token', ("" + data).trim());
+// 		console.log("****************** loggedIN changed ");})
 
-  } else {
-		try{
-			angular.element(document).scope().userLogged = "perfavore fai login";
+//   } else {
+// 		try{
+// 			angular.element(document).scope().userLogged = "perfavore fai login";
 
-		}catch(err){}
-    console.log("**************** out");
-  }
-});
+// 		}catch(err){}
+//     console.log("**************** out");
+//   }
+// });
 
 function getNext(){
 	return new Date().getTime()
