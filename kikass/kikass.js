@@ -37,7 +37,7 @@ app.controller("kikass", ["$scope", "clSettings", function ($scope, constants ) 
 {
   "name":"fiorentina",
   "players":"Sportiello; Laurini; Milenkovic; Pezzella; Biraghi; Benassi; Badelj; Dabo; Chiesa; Saponara; Simeone; Allenatore; Pioli;  CEROFOLINI;  DRAGOWSKI;OLIVERA M;  HRISTOV;  GASPAR;VITOR HUGO;GIL DIAS;EYSSERIC;FALCINELLI;THEREAU"
-  
+
 },
 {
   "name":"frosinone",
@@ -90,7 +90,6 @@ app.controller("kikass", ["$scope", "clSettings", function ($scope, constants ) 
   "players":"Sirigu; Bonifazi; N'Koulou; Moretti; De Silvestri; Rincon; Baselli; Ansaldi; Edera; Iago Falque; Belotti; A disposizione; Milinkovic; Ichazo; Molinaro; Barreca; Ferigra; Burdisso; Valdifiori; Acquah; Obi; Niang; Berenguer; Allenatore; Walter Mazzarri;"
 }
 
-    
 
     ]
   };
@@ -114,8 +113,6 @@ app.controller("kikass", ["$scope", "clSettings", function ($scope, constants ) 
     }
     return results;
   }
-  self.match = "Badelj";
-  mastica('fiorentina', teamData.teams);
 
   this.done = (valori) => {
     $scope.out2 = {};
@@ -136,23 +133,21 @@ app.controller("kikass", ["$scope", "clSettings", function ($scope, constants ) 
     for (let ii = 0; ii < teamData.teams.length; ii++){
       let team = teamData.teams[ii];
       let players = team.players;
-      // casi 
+      // casi
       if (players) ;
-    
+
     }
   }
   function stampaRisultati(ticker){
     if (self.results !== "") $scope.results = "trovato " + self.results;
         else $scope.results = "cazze nere";
-  
+
   }
-  
+
   function logd(json){
     let out = JSON.stringify(json,null,"    ");
     console.log( out );
     return out;
   }
-  
+
 }])
-
-
