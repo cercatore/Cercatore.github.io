@@ -56,12 +56,12 @@ var cc=0;
                       nitem = {};
                       nitem[getNext()] = item;
                       $scope.currentChat.messages = [ ...$scope.currentChat.messages, item ];
-                      
+
                     })
                     let element = $('.converation');
                       // updateScroll(element);
                       element.scrollintoview ({behavior: "instant", block: "end", inline: "nearest"});
-                      
+
 
                 }
                 )
@@ -103,7 +103,7 @@ var cc=0;
         }
         this.sonoUser = function(name){
           self.user = name
-          if (!self.user | self.user === '' )   {$scope.chat_error = "********* erore Zio Nickname";return;}
+          if (!self.user | self.user === '' )   {$scope.chat_error = "********* <strong>LORENZO</strong>, Perfavore Inserisci un nome e poi clicca ENTRA. Bello :)";return;}
           $scope.chat_error='';
           self.setPresenceInit(self.user);
           console.log("username :  " + self.username);

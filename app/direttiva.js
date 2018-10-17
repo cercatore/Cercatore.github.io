@@ -1,4 +1,15 @@
 
+angular.module('myApp.costanti', [])
+.constant('clSettings', {
+    beUrl:      'https://api.mlab.com/api/1/databases/cbmanager/collections/',
+    docName: 		 'test03',
+    apikey:      '?apiKey=LC-wif-orODQhsURWZf43a-I0x2hjhIf',
+
+    otherSetting: 'XYZ',
+    squadre_serie_a: ["SELEZIONA...", "ATALANTA", "BOLOGNA", "CAGLIARI", "CHIEVO", "EMPOLI", "FIORENTINA", "FROSINONE", "GENOA", "INTER", "JUVENTUS", "LAZIO", "MILAN", "NAPOLI", "PARMA", "ROMA", "SAMPDORIA", "SASSUOLO", "SPAL", "TORINO", "UDINESE"],
+    routes
+});
+
 app.directive('clNavbar', function() {
     return {
             restrict: 'E',

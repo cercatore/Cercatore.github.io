@@ -1,28 +1,57 @@
-<h1>sei uno stronzo </h1>@
+<style>
+    .tooltip.in { .opacity(100); }
+
+.tooltip-inner {
+    background:@popoverTitleBackground;
+    color:@gray;
+}
+.tooltip .arrow {
+    border-width: @tooltipArrowOuterWidth;
+}
+
+</style>
 
 <form name="form1" ng-submit="main.done(main.input)">
 <div class="form-group">
     <h1 class="text-center text-truncate">select one, two , trh33</h1>
-    <select class="form-control" ng-model="main.input.separator">
-        <option value=",">comma</option>
-        <option value=".">dot</option>
-        <option value=";">semicolo</option>
-
-        <option value="&nbsp;">space</option>
-
-    </select>
-
-    <select class="form-control" ng-model="main.input.selected_team" ng-required>
+  
+    <h2 class="text-sm-center text-block text-light bg-secondary p-2 mb-2">TEAM CASA</h2>
+    <select class="form-control" ng-model="main.input.selected_team_1">
         <option ng-selected="main.input.selected_team == item" ng-repeat="item in squadre_serie_a" ng-value="item" >{{item}}</option>
     </select>
-    <input type="text" ng-model="main.input.formazione" required value="De Rossi,Pjanic,biondini,Gomis a">
+    <input type="text" ng-model="main.input.formazione_1" required >
         <div ng-messages>{{error}}</div>
-
-
+        <h2 class="text-sm-center">TEAM OSPITI</h2>
+    <select class="form-control" ng-model="main.input.selected_team_2" required>
+        <option ng-selected="main.input.selected_team == item" ng-repeat="item in squadre_serie_a" ng-value="item" >{{item}}</option>
+    </select>
+    <input type="text" name="team2" ng-model="main.input.formazione_2" required >
+        <div ng-messages="form1.team2.$invalid || form1.team2.$dirty">
+            <div ng-message="required" class="ng-error" >required.</div>
+        </div>
+            <a href="" type="button"
+                class="btn popovers-1"
+                title="TITLE HERE"
+                data-content="dfkndsjfn&lt;span class='fa fa-shopping-cart' ng-click='wow()' &gt;&lt;/span&gt;"
+                
+                data-original-title="A Title">button</a>
+    <footer class="position-sticky">
+        <i>(optional)</i><i class="fa fa-info-circle"></i>
+        <select class="form-control" ng-model="main.input.separator">
+            <option value=",">comma</option>
+            <option value=".">dot</option>
+            <option value=";">semicolo</option>
+    
+            <option value="&nbsp;">space</option>
+    
+        </select>
+    </footer>
 
 
 
 </div>
+<button type="button" class="btn btn-primary col-sm-3 pull-right" ng-click="main.done(main.input)">FORZA</button>
+    
 </form>
 
 
@@ -33,3 +62,5 @@
 <pre>
     {{ out2}}
 </pre>
+
+<script src="kikass/data2018.js"></script>

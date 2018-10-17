@@ -41,7 +41,7 @@ app.service( "movieService" , function ( $http , clSettings){
   return service;
 })
 
-app.controller( "movieController" , function($scope,NgTableParams,movieService){
+app.controller( "movieController" , function($scope,movieService){
 
    this.afunction = ( param ) =>  {
      kdmfmksf;

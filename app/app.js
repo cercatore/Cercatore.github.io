@@ -13,13 +13,15 @@ var app = angular.module('myApp',
 	'firebase',
 	'ngProgress',
 	'ngFileUpload',
-	'hl.sticky'
+	'hl.sticky',
+	'myApp.costanti'
 
 	//'ngTable'
 
 	])
 
 var user;
+
 
 // const setLocalStorageItem = Cl(prop, value) => {
 // 	localStorage.setItem(prop, value);
@@ -140,18 +142,6 @@ function getNext(){
 }
 
 
-app.constant('clSettings', {
-        beUrl:      'https://api.mlab.com/api/1/databases/cbmanager/collections/',
-				docName: 		 'test03',
-				apikey:      '?apiKey=LC-wif-orODQhsURWZf43a-I0x2hjhIf',
-
-		otherSetting: 'XYZ',
-		squadre_serie_a: ["ATALANTA", "BOLOGNA", "CAGLIARI", "CHIEVO", "EMPOLI", "FIORENTINA", "FROSINONE", "GENOA", "INTER", "JUVENTUS", "LAZIO", "MILAN", "NAPOLI", "PARMA", "ROMA", "SAMPDORIA", "SASSUOLO", "SPAL", "TORINO", "UDINESE"],
-		routes
-    });
-
-
-
 
 app.value('categorieHC' , [ "FIRST COURSE" , "SECOND COURSE" , "SIDE DISHES" , "BEVERAGES"]);
 
@@ -187,21 +177,23 @@ app.factory("aracnoService" , function( $http, $location){
 		sacco.uploading = 1;
 		
 		let task = ref.put(data) // TODO: lasc\iare in bianco
+		prog.set(9);
+		// was prog.start(): fixed time increase	
 		task.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+		
 		function(snapshot) {
 		  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
 			var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 			console.log('Upload is ' + progress.toFixed(0) + '% done');
-			prog.set(9);
 			sacco.profile_identify = 'images/paperino.png';
-			sacco.start();
+			
 		  switch (snapshot.state) {
 			case firebase.storage.TaskState.PAUSED: // or 'paused'
 			  console.log('Upload is paused');
 			  break;
 			case firebase.storage.TaskState.RUNNING: // or 'running'
 				console.log('Upload is running');
-				prog.set( progress.toFixed(0)); 
+				prog.set( progress.toFixed(0) ); 
 			  break;
 		  }
 		}, function(error) {
@@ -219,19 +211,19 @@ app.factory("aracnoService" , function( $http, $location){
 	  	case 'storage/unknown':
 			// Unknown error occurred, inspect error.serverResponse
 			break;
-		default:console.log(error.code);
+		default:console.log("error " + error.code);
 		}
 	  }, function() {
 		// Upload completed successfully, now we can get the download URL
 		task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
 		  console.log('File available at', downloadURL);
-			sacco.aggiornaUser(downloadURL);
-			prog.set(100);
 			let ref = task.snapshot.ref;
 			let bucket = "gs://" + ref.location.bucket + "/" + ref.location.u;
+			sacco.aggiornaUser(downloadURL, bucket);
 			console.log("bucket is " + bucket);
 			window.localStorage.setItem('image', downloadURL);
 			sacco[propName] = downloadURL;
+			prog.set(100);
 			
 		});
 	  });
@@ -413,6 +405,7 @@ app.run(['$location', '$rootScope', function($location, $rootScope) {
 	$rootScope.route_2 = routes[1].replace('/','#');
 	$rootScope.route_3 = routes[2].replace('/','#');
 	$rootScope.route_4 = routes[3].replace('/','#');
+	$rootScope.route_5 = routes[5].replace('/','#');
 
 	if (user) {
 		$rootScope.loginStatus = "VAI DOVE VUOI";

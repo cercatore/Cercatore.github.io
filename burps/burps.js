@@ -10,6 +10,7 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   self.client =  { clientId, name: "alberto"};
   self.data = {};
   self.amici = {};
+
   
   
   $scope.origin = { "x" : 0, "y" : 0};
@@ -22,8 +23,8 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
     if (self.client.image === '' ) {
     $scope.user_error = 'error no image';
 
-    //return;
-    }
+    // return;
+      }
     if (window.localStorage.getItem('chrome')){
     }
     checkUser(); 
@@ -32,14 +33,14 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   }
   this.updateRange = (r)=>{
     console.log("range : " + r);
-  }
+  };
   
   const feedGoogle = (data, outputDebug) => {
       log( "User login status ",  $rootScope.userLogged)
-        $http.post(cloud + key, data )
+      $http.post(cloud + key, data )
           .then( (result) => { log(result) })
           .catch( (result) => log( result));
-        };
+  };
   
   $scope.thecat = "images/unload.png";
   self.testi = [ "Animals - Fauna" , "Mammals", "This cat", "laughing"];
@@ -63,24 +64,24 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
     [30.902225, -166.66809]     // North Pacific Ocean
   ];
 
-    const mapPromises = ()=> {
+  const mapPromises = ()=> {
       let promises = [];
       fishLocations.forEach( (location, index)=> {
         promises.push( self.geoFire.set("fish" + index, location).then(function () {
-      log("fish" + index + " initially set to [" + location + "]");
-      }));
-    });
-    return promises;
-    };
+            log("fish" + index + " initially set to [" + location + "]");
+        }));
+      });
+  return promises;
+  };
     
-    $scope.setId = (clientId) =>{
+  $scope.setId = (clientId) =>{
       self.clientId = clientId;
       self.client =  { clientId, name: "johnny"};   // TODO ERROR
     }
 
   function initFire () {
     
-    geoService.registerQuery(clientId, [0, 0]);
+      geoService.registerQuery(clientId, [0, 0]);
 
   }
   
@@ -113,12 +114,7 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   }
   populate(self.data);
   function log (what) {$log.log(what);}
-  $scope.submit = function () {
-    if ($scope.form.file.$valid && $scope.file) {
-      $scope.upload($scope.file);
-    }
-  };
-  
+
   function checkUser () {
     return true;
   }
@@ -129,8 +125,9 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
     
   
   $scope.aggiornaUser = (a, bucket)=>{self.client.image = a;$scope.upload_complete = true;self.client.gcsImage = bucket;
-    $scope.recog_in_prgress = "wait please, check in progress";
+    $scope.recog_in_progress = "wait please, check in progress";
     let sent = buildRequest(self.client.gcsImage);
+    $scope.thecat = a;
     feedGoogle(sent, "ciao");
   
   
