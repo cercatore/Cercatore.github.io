@@ -36,14 +36,34 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   };
   
   const feedGoogle = (data, outputDebug) => {
+      let result = {};
       log( "User login status ",  $rootScope.userLogged)
       $http.post(cloud + key, data )
-          .then( (result) => { log(result) })
-          .catch( (result) => log( result));
+          .then( (response) => { 
+              log("actually good");  // qualcosa come result.confidence
+              
+              return result;
+          })
+          .catch( (response) => {log( response);
+            // TODO something
+            result.ordine = "robaccia";
+            result.genre = "dog";
+            result.tipo = "labra golden";
+            if (result.ordine !== "mammals"){
+              self.testi = self.retry;
+              self.active = true;
+            }
+            return result;      
+            }
+          );
+      result.ordine = "bigne";
+      log("warning hu");
+      return result;
   };
   
   $scope.thecat = "images/unload.png";
   self.testi = [ "Animals - Fauna" , "Mammals", "This cat", "laughing"];
+  self.retry = ["Uhm, sembra che non sia un cane.", "Ritenta, perfavore","",""];
     
   $scope.fatto = (data) => {
     aracnoService.uploadToStorage($scope, clientId, data, 'out_url', $scope.progressbar);
@@ -124,12 +144,25 @@ app.controller( "burpsCtrl" , function ($scope, $rootScope, ngProgressFactory, $
   
     
   
-  $scope.aggiornaUser = (a, bucket)=>{self.client.image = a;$scope.upload_complete = true;self.client.gcsImage = bucket;
+  $scope.aggiornaUser = (imgUrl, bucket, forestRef)=>{self.client.image = imgUrl;$scope.upload_complete = true;self.client.gcsImage = bucket;
     $scope.recog_in_progress = "wait please, check in progress";
     let sent = buildRequest(self.client.gcsImage);
-    $scope.thecat = a;
-    feedGoogle(sent, "ciao");
-  
+    $scope.thecat = imgUrl;
+    let recog = feedGoogle(sent, "ciao"); // TODO add async for sake of get good data
+    var newMetadata = {
+      customMetadata: {
+        'ordine': recog.ordine,
+        'genre': recog.genre,
+        "kind": recog.type
+      }
+    };
+    if (recog.ordine !== 'bigne')
+      self.testi = self.retry;
+      self.active = true;
+    forestRef.updateMetadata(newMetadata).then(metadata => {
+        log("SAVING RECOG: stored file " + metadata.name + ", " + metadata.contentType + ", customMeta(non null): " + metadata.customMetadata + "(YAY)");
+    })
+
   
   
   

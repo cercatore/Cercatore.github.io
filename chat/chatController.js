@@ -1,6 +1,10 @@
 var cc=0;
   angular.module('myApp.chat' ,['ngMessages'] )
     .controller('chatController', function($scope, $interval, $timeout){
+
+        self.noop = ()=>{
+          alert("funziono no");
+        }
         self = (this)
         this.afs = firebase.firestore();
         self.presence = {};

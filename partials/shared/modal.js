@@ -31,7 +31,39 @@ angular.module('shared',['ui.bootstrap', 'ui.bootstrap.tpls', 'ngAnimate'])
         });
 		
 		return defer.promise;
+    };
+    obj.tutorialDialog = function (title, message) {
+    
+        var defer = $q.defer();
+		
+        var modalInstance = $modal.open({
+            animation: true,
+			backdrop: true,
+            
+            templateUrl: '/partials/hints/hintmodal.html',
+            controller: function ($scope)
+            {
+                $scope.modal = {};
+                $scope.modal.title = title;
+				$scope.modal.message = message;
+
+                $scope.ok = function ()
+                {
+                    modalInstance.close();
+                    defer.resolve();
+                };
+
+                $scope.cancel = function ()
+                {
+                    modalInstance.dismiss();
+                    defer.reject();
+                };
+            }
+        });
+		
+		return defer.promise;
     }
+
 
     return obj;
 }])

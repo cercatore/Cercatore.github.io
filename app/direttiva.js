@@ -7,7 +7,20 @@ angular.module('myApp.costanti', [])
 
     otherSetting: 'XYZ',
     squadre_serie_a: ["SELEZIONA...", "ATALANTA", "BOLOGNA", "CAGLIARI", "CHIEVO", "EMPOLI", "FIORENTINA", "FROSINONE", "GENOA", "INTER", "JUVENTUS", "LAZIO", "MILAN", "NAPOLI", "PARMA", "ROMA", "SAMPDORIA", "SASSUOLO", "SPAL", "TORINO", "UDINESE"],
-    routes
+    routes,
+    labels: {
+        title: "HINT DIALOG",
+        "ITA": {
+            tutorial_text: "Lorem ipsum dolor sit amet, nec cu ullum feugait commune, in equidem tractatos complectitur vel. Te mazim reprehendunt vim, gloriatur conceptam vis et. Ex latine aeterno deleniti mei, oratio debitis temporibus quo an. Vim omittam reformidans at."
+
+        },
+        "EN": {
+            tutorial_text: "blabla"
+        }
+
+    },
+    scambioCerca:[],
+
 });
 
 app.directive('clNavbar', function() {

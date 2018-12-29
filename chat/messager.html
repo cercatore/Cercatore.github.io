@@ -68,9 +68,9 @@ footer {
   <!-- Message Box End -->
 
   <!-- Reply Box -->
-  <div hl-sticky="bottom" alwaysSticky="true" ><h2 class="text-primary">CIAO SONO STICKE</h2>
+  <div class="sticky"  ><h2 class="text-primary">CIAO SONO STICKE</h2></div>
   <div class="p-2" offset="100">
-    <form name="form" class="conversation-compose" style="background:#444" ng-submit="control.addMessage()">
+    <form name="form" class="fixed-bottom" style="background:#444" ng-submit="control.addMessage()">
       <div class="emoji">
         <i class="fa fa-smile-o fa-2x"></i>
       </div>
@@ -82,9 +82,9 @@ footer {
           <option>CACARE</option>
         
         </select>
-        <div class="photo"><i class="fa fa-2x fa-paperclip"></i></div>
-        <div class="photo"><i class="fa fa-2x fa-microphone"></i></div>
-        <div class="photo"><button><i class="fa fa-2x fa-send" ng-click="control.error = 'errore'"></i></button></div>
+        <button type="button" class="btn btn-outline-primary" ng-click="control.noop()"><i class="fa fa-2x fa-paper-plane"></i></button>
+        <!-- <div class="photo"><i class="fa fa-2x fa-microphone"></i></div> -->
+        <!-- <div class="photo"><button><i class="fa fa-2x fa-send" ng-click="control.error = 'errore'"></i></button></div> -->
         
       </div>
       <h4><i class="fa fa-info-circle"></i>{{control.error}}</h4>

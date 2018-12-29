@@ -1,4 +1,16 @@
-
+<style>
+.fade.in {
+  opacity: 1;
+}
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+.modal-backdrop.in {
+  opacity: 0.5;
+}
+</style>
 <div class="modal-header">
   <button type="button" class="close" data-ng-click="cancel(); $event.stopPropagation()">
     <span aria-hidden="true">&times;</span>
@@ -10,14 +22,7 @@
 	<table class="table">
 			<thead><td>NOME</td><td>&euro;</td></thead>
 			<tbody>
-				<tr ng-repeat="frmat in message">
-					<td>
-						{{frmat.nome}}
-					</td>
-					<td colspan='2'>
-						{{frmat.prezzo}}
-					</td>
-				</tr>
+			{{message}}
 			</tbody>
 		</table>
     </div>

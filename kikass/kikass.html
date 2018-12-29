@@ -10,7 +10,11 @@
 }
 
 </style>
-
+<button class="btn btn-info pull-right" ng-click="main.tutorial()">TUTORIAL</button>
+<button class="btn btn-info pull-right" ng-click="main.mobutton()">SOME</button>
+<div class="waiting-box pull-right col-3" ng-if="waiting">
+    <img class="img-responsive" src="images/loading.gif">
+</div>
 <form name="form1" ng-submit="main.done(main.input)">
 <div class="form-group">
     <h1 class="text-center text-truncate">select one, two , trh33</h1>

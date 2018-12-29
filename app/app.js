@@ -34,6 +34,7 @@ app.factory('BearerAuthInterceptor', function ($window, $q, $location) {
     return {
         request: function(config) {
 				config.headers = config.headers || {};
+				console.log(config.headers);
 		    if (window.localStorage.getItem('token')) {
               // may also use sessionStorage
 				config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem('token');
@@ -175,25 +176,25 @@ app.factory("aracnoService" , function( $http, $location){
 			"claudio" : data.name
 		  };
 		sacco.uploading = 1;
-		
+
 		let task = ref.put(data) // TODO: lasc\iare in bianco
-		prog.set(9);
-		// was prog.start(): fixed time increase	
+		prog.set(19);
+		// was prog.start(): fixed time increase
 		task.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-		
+
 		function(snapshot) {
 		  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
 			var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 			console.log('Upload is ' + progress.toFixed(0) + '% done');
 			sacco.profile_identify = 'images/paperino.png';
-			
+
 		  switch (snapshot.state) {
 			case firebase.storage.TaskState.PAUSED: // or 'paused'
 			  console.log('Upload is paused');
 			  break;
 			case firebase.storage.TaskState.RUNNING: // or 'running'
 				console.log('Upload is running');
-				prog.set( progress.toFixed(0) ); 
+				prog.set( progress.toFixed(0) );
 			  break;
 		  }
 		}, function(error) {
@@ -219,12 +220,12 @@ app.factory("aracnoService" , function( $http, $location){
 		  console.log('File available at', downloadURL);
 			let ref = task.snapshot.ref;
 			let bucket = "gs://" + ref.location.bucket + "/" + ref.location.u;
-			sacco.aggiornaUser(downloadURL, bucket);
+			sacco.aggiornaUser(downloadURL, bucket, ref);
 			console.log("bucket is " + bucket);
 			window.localStorage.setItem('image', downloadURL);
 			sacco[propName] = downloadURL;
 			prog.set(100);
-			
+
 		});
 	  });
 
@@ -310,8 +311,12 @@ var routes = [ "/burp" , "/home" , "/movies" , "/chat" , "/batch", "/kikass"];
 app.config(
   function($routeProvider, $httpProvider) {
 		  //alert ("useXDomain prop is " + $httpProvider.defaults.useXDomain)
-	$httpProvider.interceptors.push('BearerAuthInterceptor');
-
+	// $httpProvider.interceptors.push('BearerAuthInterceptor'); // WARNING REMOVED TODO:
+	// $httpProvider.defaults.headers.get = { 'accept' : 'application/json' }
+	let headers = [];
+	// headers.push( { 'Access-Control-Allow-Origin' : 'http://127.0.0.1:5005' }); 
+	// $httpProvider.defaults.headers.common = headers;
+		
     $routeProvider.
       when('/comanda', {
 			title:"PRFESSIONAL HOME PAGE DEVELOPER CLAUDIO",					// title: 'LOGIN',
@@ -352,6 +357,11 @@ app.config(
 			title:'chat',
 			templateUrl: 'chat/room.html',
 			controller: 'chatController as control'
+		})
+		.when( routes[6], {
+			title:"",
+			templateUrl: 'zombie/esaurito.html',
+			controller: 'zombieCtrl as main'
 		})
 		.when( '/movie' , {
 			title:'my obiettivo',
@@ -399,9 +409,9 @@ const waitaminuteDone = async() =>{
 
 app.run(['$location', '$rootScope', function($location, $rootScope) {
 	$rootScope.loginActions  = [ 'LOGIN'];
-
-	$rootScope.route_1 = routes[0].replace('/','#');
+	$rootScope.splashLoad = true;
 	console.log(routes[1])
+	$rootScope.route_1 = routes[0].replace('/','#');
 	$rootScope.route_2 = routes[1].replace('/','#');
 	$rootScope.route_3 = routes[2].replace('/','#');
 	$rootScope.route_4 = routes[3].replace('/','#');
