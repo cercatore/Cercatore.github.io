@@ -13,7 +13,6 @@ var app = angular.module('myApp',
 	'firebase',
 	'ngProgress',
 	'ngFileUpload',
-	'hl.sticky',
 	'myApp.costanti'
 
 	//'ngTable'
@@ -89,12 +88,11 @@ this.signInFacebook = () => {
 }
 
 this.signInGoogle = () => {
-		auth.$signInWithPopup("google").then((firebaseUser)=>{
-		console.log("G+ Signed in as:", firebaseUser.uid);
-	}).catch(function(error) {
- 	 console.log("G Authentication failed:", error);
-  });
+		auth.signInWithRedirect("google")
+			.then(credential => console.log(credential))
+			.catch(error=> console.log(error))
 }
+
 $rootScope.logout = function(){
 	auth.$signOut().then(function() {
 			// Sign-out successful.
@@ -314,9 +312,9 @@ app.config(
 	// $httpProvider.interceptors.push('BearerAuthInterceptor'); // WARNING REMOVED TODO:
 	// $httpProvider.defaults.headers.get = { 'accept' : 'application/json' }
 	let headers = [];
-	// headers.push( { 'Access-Control-Allow-Origin' : 'http://127.0.0.1:5005' }); 
+	// headers.push( { 'Access-Control-Allow-Origin' : 'http://127.0.0.1:5005' });
 	// $httpProvider.defaults.headers.common = headers;
-		
+
     $routeProvider.
       when('/comanda', {
 			title:"PRFESSIONAL HOME PAGE DEVELOPER CLAUDIO",					// title: 'LOGIN',
@@ -384,7 +382,10 @@ app.config(
 			templateUrl:'kikass/kikass.html',
 			controller:'kikass as main'
 		})
+		.when('/intime', {
+			templateUrl:'/partials/hints/redir.html', // strano caso, meh
 
+		})
     .otherwise({
         redirectTo: '/kikass'
     });
@@ -432,6 +433,7 @@ app.run(['$location', '$rootScope', function($location, $rootScope) {
 				// }
 
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+			console.log(current + '; next ' +  previous  );
         $rootScope.title = current.$$route.title;
 		});
 	}
